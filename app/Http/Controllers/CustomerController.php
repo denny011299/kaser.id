@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\CustomerPrice;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -14,6 +15,7 @@ class CustomerController extends Controller
     
     function customerDetail($id) {
         $param["data"] =(new Customer)->getCustomer(["cus_id"=>$id])[0];
+        $param["cus_id"] =$id;
         return view('Backoffice.Customer.Customer_detail')->with($param);
     }
 
@@ -44,6 +46,34 @@ class CustomerController extends Controller
     {
         $data = $req->all();
         return (new Customer())->deleteCustomer($data);
+    }
+
+    //Supplier Price + Product
+    function getCustomerPrice(Request $req)
+    {
+        $data =  (new CustomerPrice())->getCustomerPrice([
+            "cp_id" => $req->cp_id,
+            "pr_id" => $req->pr_id,
+        ]);
+        return json_encode($data);
+    }
+
+    function insertCustomerPrice(Request $req)
+    {
+        $data = $req->all();
+        (new CustomerPrice())->insertCustomerPrice($data);
+    }
+
+    function updateCustomerPrice(Request $req)
+    {
+        $data = $req->all();
+        (new CustomerPrice())->updateCustomerPrice($data);
+    }
+
+    function deleteCustomerPrice(Request $req)
+    {
+        $data = $req->all();
+        return (new CustomerPrice())->deleteCustomerPrice($data);
     }
 
         //lain lain

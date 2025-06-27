@@ -173,7 +173,7 @@
     $(document).on("click",".btn_edit",function(){
         var data = $('#tableProductVariant').DataTable().row($(this).parents('tr')).data();//ambil data dari table
         mode=2;
-        
+        $('#modalInsert .modal-title').html("Edit Product Variant");
         $('#modalInsert input').empty().val("");
         $('#pv_name').val(data.pv_name);
         variants = JSON.parse(data.pv_attribute);

@@ -110,26 +110,26 @@
             <div class="card-body">
                 <!-- Nav tabs -->
                 <ul class="nav nav-underline border-bottom" role="tablist">
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item menu" role="presentation" menu="1">
                         <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="false" tabindex="-1">
                             <span class="d-block d-sm-none"><i class="mdi mdi-home-account"></i></span>
                             <span class="d-none d-sm-block">Product</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item menu" role="presentation" menu="2">
                         <a class="nav-link" data-bs-toggle="tab" href="#profile" role="tab" aria-selected="false" tabindex="-1">
                             <span class="d-block d-sm-none"><i class="mdi mdi-account-outline"></i></span>
                             <span class="d-none d-sm-block">Bahan Baku</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item menu" role="presentation" menu="3">
                         <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab" aria-selected="true">
                             <span class="d-block d-sm-none"><i class="mdi mdi-email-outline"></i></span>
                             <span class="d-none d-sm-block">Purchase Order</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link " data-bs-toggle="tab" href="#messages" role="tab" aria-selected="true">
+                    <li class="nav-item menu" role="presentation" menu="4">
+                        <a class="nav-link " data-bs-toggle="tab" href="#tab_invoice" role="tab" aria-selected="true">
                             <span class="d-block d-sm-none"><i class="mdi mdi-email-outline"></i></span>
                             <span class="d-none d-sm-block">Invoice</span>
                         </a>
@@ -159,21 +159,118 @@
                         
                     </div>
                     <div class="tab-pane" id="profile" role="tabpanel">
+                        <div class="row mb-2">
+                            <div class="col-6"></div>
+                            <div class="col-6 text-end">
+                                <button class="btn btn-success  btn-add-supplies" style="border-radius:100px">+ Add Product</button>
+                            </div>
+                        </div>
+                        <table class="table" id="tableSupplies">
+                             <thead>
+                                 <tr>
+                                     <td>SKU</td>
+                                     <td>Supplies Name</td>
+                                     <td>Supplies Price</td>
+                                     <td class="text-center">Action</td>
+                                 </tr>
+                             </thead>
+                             <tbody></tbody>
+                        </table>
                     </div>
                     <div class="tab-pane" id="messages" role="tabpanel">
-                        <p class="mb-0">
-                            Etsy mixtape wayfarers, ethical wes anderson tofu before they
-                            sold out mcsweeney's organic lomo retro fanny pack lo-fi
-                            farm-to-table readymade. Messenger bag gentrify pitchfork
-                            tattooed craft beer, iphone skateboard locavore carles etsy
-                            salvia banksy hoodie helvetica. skateboard locavore carles etsy
-                            salvia banksy hoodie helvetica.
-                        </p>
+                       <table class="table mt-3" id="tablePurchaseOrder">
+                            <thead>
+                                <tr>
+                                    <td>No. PO</td>
+                                    <td>Order Date</td>
+                                    <td>Total</td>
+                                    <td>Status</td>
+                                    <td class="text-center">Action</td>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                     <div class="tab-pane" id="tab_invoice" role="tabpanel">
+                        <table class="table" id="tablePoInvoice">
+                            <thead>
+                                <tr>
+                                    <td>No. PO</td>
+                                    <td class="text-center">Date</td>
+                                    <td>Inv No.</td>
+                                    <td class="text-end">Total</td>
+                                    <td class="text-center">Status</td>
+                                    <td class="text-center">Action</td>
+                                </tr>
+                            </thead>
+                            <tbody id="">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
        
+    </div>
+
+     {{-- Modal Insert--}}
+    <div class="modal fade " id="modalInsertSupplies"  tabindex="-1" role="dialog"  data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Insert Supplies</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                    
+                    <label for="">Supplies Name*</label>
+                    <select type="text" class="form-control fill" id="sup_id" placeholder=""></select>
+
+                    <label class="mt-2">Supplies Price*</label>
+                    <div class="input-group mb-3 fix-nominal">
+                        <span class="input-group-text">Rp.</span>
+                        <input type="text" class="form-control  nominal_only fill" name="" id="spr_price" placeholder="25.000">
+                    </div>
+                
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-save-supplies">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+     {{-- Modal Insert--}}
+    <div class="modal fade " id="modalInsert"  tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Insert Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                    
+                    <label for="">Product Name*</label>
+                    <select type="text" class="form-control fillProduct" id="pr_id" placeholder=""></select>
+
+                    <label class="mt-2">Product Price*</label>
+                    <div class="input-group mb-3 fix-nominal">
+                        <span class="input-group-text">Rp.</span>
+                        <input type="text" class="form-control  nominal_only fillProduct" name="" id="spr_price" placeholder="25.000">
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-save">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
     </div>
 
 @endsection

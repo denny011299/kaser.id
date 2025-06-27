@@ -106,42 +106,53 @@
             <div class="card-body">
                 <!-- Nav tabs -->
                 <ul class="nav nav-underline border-bottom" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" data-bs-toggle="tab" href="#home" role="tab" aria-selected="false" tabindex="-1">
+                    <li class="nav-item menu" menu="1" role="presentation">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="false" tabindex="-1">
                             <span class="d-block d-sm-none"><i class="mdi mdi-home-account"></i></span>
                             <span class="d-none d-sm-block">Product</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#messages" role="tab" aria-selected="true">
+                    <li class="nav-item menu" menu="2" role="presentation">
+                        <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab" aria-selected="true">
                             <span class="d-block d-sm-none"><i class="mdi mdi-email-outline"></i></span>
                             <span class="d-none d-sm-block">Invoice</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" data-bs-toggle="tab" href="#messages" role="tab" aria-selected="true">
+                    <li class="nav-item menu" menu="3" role="presentation">
+                        <a class="nav-link " data-bs-toggle="tab" href="#messages" role="tab" aria-selected="true">
                             <span class="d-block d-sm-none"><i class="mdi mdi-email-outline"></i></span>
                             <span class="d-none d-sm-block">Delivery Notes</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item menu" menu="4" role="presentation">
                         <a class="nav-link" data-bs-toggle="tab" href="#messages" role="tab" aria-selected="true">
                             <span class="d-block d-sm-none"><i class="mdi mdi-email-outline"></i></span>
-                            <span class="d-none d-sm-block">Piutang</span>
+                            <span class="d-none d-sm-block">Payment</span>
                         </a>
                     </li>
                 </ul>
                 <!-- Tab panes -->
                 <div class="tab-content p-3 text-muted">
-                    <div class="tab-pane active" id="home" role="tabpanel">
-                        <p class="mb-0">
-                            Vivamus consectetur justo non mi vehicula, nec fermentum turpis blandit. 
-                            Pellentesque habitant morbi tristique senectus et netus et malesuada 
-                            fames ac turpis egestas. Maecenas accumsan sem eget magna aliquet, 
-                            sed fermentum nisi mattis. Aenean a quam nec mauris cursus accumsan,
-                            Curabitur fermentum nisi non est ultricies.
-                        </p>
-                    </div>
+                     <div class="tab-pane active" id="home" role="tabpanel">
+                        <div class="row mb-2">
+                            <div class="col-6"></div>
+                            <div class="col-6 text-end">
+                                <button class="btn btn-success  btn-add-product" style="border-radius:100px">+ Add Product</button>
+                            </div>
+                        </div>
+                        <table class="table" id="tableProduct">
+                             <thead>
+                                 <tr>
+                                     <td>SKU</td>
+                                     <td>Product Name</td>
+                                     <td>Category</td>
+                                     <td>Product Price</td>
+                                     <td class="text-center">Action</td>
+                                 </tr>
+                             </thead>
+                             <tbody></tbody>
+                         </table>
+                     </div>
                     <div class="tab-pane" id="profile" role="tabpanel">
                         <p class="mb-0">
                             Indulge your taste buds with our mouthwatering selection of gourmet 
@@ -167,13 +178,42 @@
         </div>
        
     </div>
+ <div class="modal fade " id="modalInsert"  tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Insert Product</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                    
+                    <label for="">Product Name*</label>
+                    <select type="text" class="form-control fillProduct" id="pr_id" placeholder=""></select>
+
+                    <label class="mt-2">Product Price*</label>
+                    <div class="input-group mb-3 fix-nominal">
+                        <span class="input-group-text">Rp.</span>
+                        <input type="text" class="form-control  nominal_only fillProduct" name="" id="spr_price" placeholder="25.000">
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-save">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
 
 @endsection
 
 @section('Custom_js')
     <script>
         var public = "{{ asset('') }}";    
+        var cus_id = "{{ $cus_id }}";    
         var uploadImageUrl = "{{ asset('assets/image-cards.png') }}";
     </script>
-    <script src="{{asset('custom_js/Customer/Customer.js')}}"></script>
+    <script src="{{asset('custom_js/Customer/CustomerDetail.js')}}"></script>
 @endsection

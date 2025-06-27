@@ -216,6 +216,66 @@
         });
     }
 
+    function autocompleteSupplies(id, modalParent = null) {
+        //search country dan city
+        $(id).select2({
+            ajax: {
+                url: "/autocompleteSupplies",
+                dataType: "json",
+                type: "post",
+                data: function data(params) {
+                    return {
+                        "keyword": params.term,
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    };
+                },
+                processResults: function processResults(data) {
+                    return {
+                        results: $.map(data.data, function(item) {
+                            return item;
+                        }),
+                    };
+                },
+            },
+            placeholder: "Select Supplies",
+            closeOnSelect: true,
+            allowClear: true,
+            theme: "bootstrap-5",
+            width: "100%",
+            dropdownParent: modalParent ? $(modalParent) : "",
+        });
+    }
+
+    function autocompleteProduct(id, modalParent = null) {
+        //search country dan city
+        $(id).select2({
+            ajax: {
+                url: "/autocompleteProduct",
+                dataType: "json",
+                type: "post",
+                data: function data(params) {
+                    return {
+                        "keyword": params.term,
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    };
+                },
+                processResults: function processResults(data) {
+                    return {
+                        results: $.map(data.data, function(item) {
+                            return item;
+                        }),
+                    };
+                },
+            },
+            placeholder: "Select Product",
+            closeOnSelect: true,
+            allowClear: true,
+            theme: "bootstrap-5",
+            width: "100%",
+            dropdownParent: modalParent ? $(modalParent) : "",
+        });
+    }
+
     function autocompleteProductVariant(id, modalParent = null) {
         //search country dan city
         $(id).select2({

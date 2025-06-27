@@ -9,6 +9,7 @@ use App\Models\Product_unit;
 use App\Models\Product_variant;
 use App\Models\product_variasi;
 use App\Models\Supplier;
+use App\Models\Supplies;
 use Illuminate\Http\Request;
 
 class AutocompleteController extends Controller
@@ -102,6 +103,40 @@ class AutocompleteController extends Controller
         foreach ($data as $r) {
             $r->id = $r["pv_id"];
             $r->text = $r["pv_name"];
+        };
+        echo json_encode(array(
+            "data" => $data
+        ));
+    }
+
+    public function autocompleteProduct(Request $req)
+    {
+        $keyword = isset($req->keyword) ? $req->keyword : null;
+
+        $p = new Product();
+        $data = $p->getProduct([
+            "pr_name" => $keyword
+        ]);
+        foreach ($data as $r) {
+            $r->id = $r["pr_id"];
+            $r->text = $r["pr_name"];
+        };
+        echo json_encode(array(
+            "data" => $data
+        ));
+    }
+
+    public function autocompleteSupplies(Request $req)
+    {
+        $keyword = isset($req->keyword) ? $req->keyword : null;
+
+        $p = new Supplies();
+        $data = $p->getSupplies([
+            "sup_name" => $keyword
+        ]);
+        foreach ($data as $r) {
+            $r->id = $r["sup_id"];
+            $r->text = $r["sup_name"];
         };
         echo json_encode(array(
             "data" => $data
