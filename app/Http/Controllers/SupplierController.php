@@ -7,6 +7,8 @@ use App\Models\Supplier;
 use App\Models\SupplierPrice;
 use App\Models\SupplierPurchaseOrder;
 use App\Models\SupplierPurchaseOrderDetail;
+use App\Models\SupplierPurchaseOrderInvoice;
+use App\Models\SupplierPurchaseOrderPayment;
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
@@ -41,7 +43,7 @@ class SupplierController extends Controller
     function updateSupplier(Request $req)
     {
         $data = $req->all();
-        if(isset($req->main))$data["sp_img"] = $this->insertFile($req->main, "customer");
+        if(isset($req->main))$data["sp_img"] = $this->insertFile($req->main, "supplier");
         (new Supplier())->updateSupplier($data);
     }
 
@@ -64,6 +66,7 @@ class SupplierController extends Controller
     function PurchaseOrderDetail($id) {
         $param["dataPo"] = (new SupplierPurchaseOrder())->getPurchaseOrder(["spo_id"=>$id])[0];
         $param["data"] =(new supplier)->getSupplier(["sp_id"=>$id])[0];
+        $param["spo_id"] =$id;
         return view('Backoffice.Supplier.PurchaseOrderDetail')->with($param);
     }
     
@@ -91,10 +94,13 @@ class SupplierController extends Controller
         $id = (new SupplierPurchaseOrder())->insertPurchaseOrder($data);
         foreach (json_decode($req->list_product,true) as $key => $value) {
             $value["spo_id"] = $id;
+            $value["spod_type"] = $value["type"];
             if($value["type"]==1){
-                $value["spod_type"] = $value["type"];
                 $value["spod_value_id"] = $value["pr_id"];
                 if($value["variant"])$value["spod_variant"] = json_encode($value["variant"]);
+            }
+            else{
+                $value["spod_value_id"] = $value["sup_id"];
             }
             $value["spod_nama"] = $value["fullname"];
             $value["spod_harga"] = $value["price"];
@@ -102,6 +108,7 @@ class SupplierController extends Controller
             $value["spod_subtotal"] = $value["subtotal"];
             (new SupplierPurchaseOrderDetail())->insertDetail($value);
         }
+        return $id;
     }
 
     function updatePurchaseOrder(Request $req)
@@ -120,9 +127,10 @@ class SupplierController extends Controller
     function getSupplierPrice(Request $req)
     {
         $data =  (new SupplierPrice())->getSupplierPrice([
+            "spr_id" => $req->spr_id,
             "pr_id" => $req->pr_id,
             "sp_id" => $req->sp_id,
-            "spr_id" => $req->spr_id,
+            "type" => $req->type
         ]);
         return json_encode($data);
     }
@@ -143,6 +151,71 @@ class SupplierController extends Controller
     {
         $data = $req->all();
         return (new SupplierPrice())->deleteSupplierPrice($data);
+    }
+   
+    //Invoice PO
+    function getPoInvoice(Request $req)
+    {
+        $data =  (new SupplierPurchaseOrderInvoice())->getInvoices([
+            "spo_id" => $req->spo_id,
+            "spoi_id" => $req->spoi_id,
+            "spoi_nomer" => $req->spoi_nomer,
+        ]);
+        return json_encode($data);
+    }
+
+    function insertPoInvoice(Request $req)
+    {
+        $data = $req->all();
+        (new SupplierPurchaseOrderInvoice())->insertInvoice($data);
+    }
+
+    function updatePoInvoice(Request $req)
+    {
+        $data = $req->all();
+        (new SupplierPurchaseOrderInvoice())->updateInvoice($data);
+    }
+
+    function deletePoInvoice(Request $req)
+    {
+        $data = $req->all();
+        return (new SupplierPurchaseOrderInvoice())->deleteInvoice($data);
+    }
+
+    //Invoice PO
+    function getPaymentPo(Request $req)
+    {
+        $list = null;
+        if($req->spo_id){
+            $list = SupplierPurchaseOrderInvoice::where('spo_id','=',$req->spo_id)
+            ->where('spoi_status','!=','Deleted')->select("spoi_id")->get();
+        }
+        $data =  (new SupplierPurchaseOrderPayment())->getPayment([
+            "spoi_id" => $req->spoi_id,
+            "spop_id" => $req->spop_id,
+            "list_spoi" => $list
+        ]);
+        return json_encode($data);
+    }
+
+    function insertPaymentPo(Request $req)
+    {
+        $data = $req->all();
+        if(isset($req->main)&&$req->main!="undefined")$data["spop_img"] = $this->insertFile($req->main, "payment");
+        return (new SupplierPurchaseOrderPayment())->insertPayment($data);
+    }
+
+    function updatePaymentPo(Request $req)
+    {
+        $data = $req->all();
+        if(isset($req->main)&&$req->main!="undefined")$data["spop_img"] = $this->insertFile($req->main, "payment");
+        return (new SupplierPurchaseOrderPayment())->updatePayment($data);
+    }
+
+    function deletePaymentPo(Request $req)
+    {
+        $data = $req->all();
+        return (new SupplierPurchaseOrderPayment())->deletePayment($data);
     }
 
         //lain lain

@@ -132,7 +132,7 @@
     $(document).on("click",".btn_edit",function(){
         var data = $('#tableProductUnit').DataTable().row($(this).parents('tr')).data();//ambil data dari table
         mode=2;
-        
+        $('#modalInsert .modal-title').html("Edit Product Unit");
         $('#modalInsert input').empty().val("");
         $('#pu_short_name').val(data.pu_short_name);
         $('#pu_full_name').val(data.pu_full_name);

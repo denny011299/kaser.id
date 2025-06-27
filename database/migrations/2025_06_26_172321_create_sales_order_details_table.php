@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('supplier_prices', function (Blueprint $table) {
-            $table->integerIncrements('spr_id');
+        Schema::create('sales_order_details', function (Blueprint $table) {
+            $table->integerIncrements('sod_id');
+            $table->integer('so_id');
             $table->integer('pr_id');
-            $table->integer('sp_id');
-            $table->integer('spr_price');
+            $table->string('so_nama',200);
+            $table->string('sod_variasi',200)->nullable();
+            $table->integer('sod_harga');
+            $table->integer('sod_qty');
+            $table->integer('sod_subtotal');
             $table->integer('status')->default(1)->comment('1 = active, 0 = inactive');
             $table->timestamps();
         });
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('supplier_prices');
+        Schema::dropIfExists('sales_order_details');
     }
 };

@@ -1,44 +1,8 @@
 @extends('Backoffice.Layout')
 @section('custom_css')
-    <style>
-        .card-item{
-            cursor: pointer;
-            
-        }
-        .card-item:hover{
-            cursor: pointer;
-        }
-        .row-product::-webkit-scrollbar{
-              display: none;
-        }
-        .quantity-control .btn {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            padding: 0;
-            font-size: 18px;
-            border: 1px solid #108dff!important;
-            color: #108dff;
-        }
-        .quantity-control .btn:hover {
-            background-color: #108dff!important;
-            color: white;
-        }
-        .qty-input {
-            max-width: 50px;
-            height:25px;
-        }
-        .nav-type{
-         
-        }
-        .row-product{
-            background-color:#f7fcff;
-            height:500px;
-            overflow-y:auto;
-            overflow-x:hidden;
-            border-radius:10px
-        }
-    </style>
+
+    <link rel="stylesheet" href="{{asset('custom_css/vc-toggle-switch.css')}}">
+    <link rel="stylesheet" href="{{asset('custom_css/createPurchaseOrder.css')}}">
 @endsection
 @section('body')
      <!-- Start Content-->
@@ -59,20 +23,26 @@
             <div class="col-4">
                 <div class="card">
                     <div class="card-body pe-0 ps-2 pe-2" >
-                        <div class="pe-2">
-                            <input type="text" name="" class="form-control " id="search" placeholder="SKU / Product Name / Barcode" style="border-radius: 100px">
+                        <div class="row">
+                            <div class="col-9">
+                                <div class="pe-2">
+                                    <input type="text" name="" class="form-control " id="search" placeholder="SKU / Product Name / Barcode" style="border-radius: 100px;height:35px ">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="text-center d-inline-block mb-3 ms-auto d-flex justify-content-end">
+                                    <div class="vc-toggle-container">
+                                    <label class="vc-switch" style="width: 100px;height:30px">
+                                        <input type="checkbox" class="vc-switch-input" id="btnType" />
+                                        <span class="vc-switch-label" data-on="Supplies" data-off="Product"></span>
+                                        <span class="vc-handle"></span>
+                                    </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        
-                        <div class="btn-group mt-2 nav-type" role="group" aria-label="Basic radio toggle button group" style="">
-                            <input type="radio" class="btn-check " name="btnradio" id="btn-products"  autocomplete="off" checked="">
-                            <label class="btn btn-outline-primary btnType" mode="1"for="btnradio4">Products</label>
-                          
-                            <input type="radio" class="btn-check" name="btnradio" id="btn-supplies" mode="2" autocomplete="off">
-                            <label class="btn btn-outline-primary btnType" mode="2" for="btnradio5">Supplies</label>
-                        </div>
-
                         <div class="mt-3 row-product pe-2 ps-3 pt-3" style="" >
-
+                            
                         </div>
                     </div>
                 </div>
@@ -174,6 +144,7 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
+   
 @endsection
 
 @section('Custom_js')

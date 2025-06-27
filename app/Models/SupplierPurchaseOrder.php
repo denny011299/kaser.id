@@ -35,7 +35,7 @@ class SupplierPurchaseOrder extends Model
 
             $value->items = (new SupplierPurchaseOrderDetail)->getDetails(["spo_id"=>$value->spo_id]);
         }
-
+        
         return $result;
     }
 

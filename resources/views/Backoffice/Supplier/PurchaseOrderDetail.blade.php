@@ -32,6 +32,7 @@
                                         <h5>{{$data["sp_name"]}}</h5>
                                     </div>
                                     <div class="col-6 text-end">
+                                         <span id="label_spo_status"></span>
                                          <label for="" class="bg-primary-subtle text-primary px-3 py-1 mb-2" style="border-radius: 100px;font-size:8pt">{{$data["city_name"]}}</label>
                                     </div>
                                 </div>
@@ -110,19 +111,19 @@
             <div class="card-body">
                 <!-- Nav tabs -->
                 <ul class="nav nav-underline border-bottom" role="tablist">
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item menu" role="presentation" menu="1">
                         <a class="nav-link active" data-bs-toggle="tab" href="#home" role="tab" aria-selected="false" tabindex="-1">
                             <span class="d-block d-sm-none"><i class="mdi mdi-home-account"></i></span>
                             <span class="d-none d-sm-block">Summary</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item menu" role="presentation"  menu="2">
                         <a class="nav-link " data-bs-toggle="tab" href="#messages" role="tab" aria-selected="true">
                             <span class="d-block d-sm-none"><i class="mdi mdi-email-outline"></i></span>
                             <span class="d-none d-sm-block">Invoice</span>
                         </a>
                     </li>
-                    <li class="nav-item" role="presentation">
+                    <li class="nav-item menu" role="presentation"  menu="3">
                         <a class="nav-link" data-bs-toggle="tab" href="#profile" role="tab" aria-selected="false" tabindex="-1">
                             <span class="d-block d-sm-none"><i class="mdi mdi-account-outline"></i></span>
                             <span class="d-none d-sm-block">Payment</span>
@@ -196,38 +197,189 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane" id="profile" role="tabpanel">
-                        <p class="mb-0">
-                            Indulge your taste buds with our mouthwatering selection of gourmet 
-                            dishes crafted with the finest ingredients sourced from local farms. 
-                            From savory appetizers to delectable main courses and decadent desserts, 
-                            our menu promises to delight even the most discerning palates. 
-                            Whether you're craving a hearty. most discerning palates. 
-                            Whether you're craving a hearty.
-                        </p>
-                    </div>
                     <div class="tab-pane" id="messages" role="tabpanel">
-                        <p class="mb-0">
-                            Etsy mixtape wayfarers, ethical wes anderson tofu before they
-                            sold out mcsweeney's organic lomo retro fanny pack lo-fi
-                            farm-to-table readymade. Messenger bag gentrify pitchfork
-                            tattooed craft beer, iphone skateboard locavore carles etsy
-                            salvia banksy hoodie helvetica. skateboard locavore carles etsy
-                            salvia banksy hoodie helvetica.
-                        </p>
+                         <div class="row mb-2">
+                            <div class="col-6"></div>
+                            <div class="col-6 text-end">
+                                @if($dataPo["spo_status"]!="Done")
+                                    <button class="btn btn-success  btn-add-invoice" style="border-radius:100px">+ Add Invoice</button>
+                                @endif
+                            </div>
+                        </div>
+                         <table class="table" id="tablePoInvoice">
+                            <thead>
+                                <tr>
+                                    <td class="text-center">Date</td>
+                                    <td>Inv No.</td>
+                                    <td class="text-end">Total</td>
+                                    <td class="text-center">Status</td>
+                                    <td class="text-center">Action</td>
+                                </tr>
+                            </thead>
+                            <tbody id="">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane" id="profile" role="tabpanel">
+                         <div class="row mb-2">
+                            <div class="col-6"></div>
+                            <div class="col-6 text-end">
+                                @if($dataPo["spo_status"]!="Done")
+                                    <button class="btn btn-success  btn-add-payment" style="border-radius:100px">+ Add Payment</button>
+                                @endif
+                            </div>
+                        </div>
+                        <table class="table" id="tablePaymentPo">
+                            <thead>
+                                <tr>
+                                    <td class="" style="width: 10%">No. Invoice</td>
+                                    <td class="text-center">Date</td>
+                                    <td class="text-center">Method</td>
+                                    <td class="text-end">Total</td>
+                                    <td class="text-center">Action</td>
+                                </tr>
+                            </thead>
+                            <tbody id="">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
        
     </div>
+ {{-- Modal Insert--}}
+    <div class="modal fade bs-example-modal-center show" id="modalInsert"    tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" id="modalInsert">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                       <label for="">Invoice No.*</label>
+                       <input type="text" class="form-control fill" name="category_name" id="spoi_nomer" placeholder="Ex INV2201">
+                       <label class="mt-2" for="">Invoice Date*</label>
+                       <input type="date" class="form-control fill" name="category_name" id="spoi_date">
+                       <label class="mt-2" for="">Invoice Total*</label>
+                        <div class="input-group mb-3 fix-nominal">
+                            <span class="input-group-text">Rp.</span>
+                            <input type="text" class="form-control  nominal_only" name="vc_nominal" id="spoi_total" placeholder="25.000">
+                        </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-save">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
 
+    <div class="modal fade bs-example-modal-center show" id="modalInsertPayment"    tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" id="modalInsert">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                       <label for="">Invoice No.*</label>
+                       <select name="" id="spoi_id" class="fillPayment form-select"></select>
+
+                       <label class="mt-2" for="">Payment Date*</label>
+                       <input type="date" class="fillPayment form-control" id="spop_date">
+
+                       <label for="">Payment Method*</label>
+                       <select name="" id="spop_type" class="fillPayment form-select">
+                            <option value="Cash">Cash</option>
+                            <option value="Transfer">Transfer</option>
+                       </select>
+
+                       <label class="mt-2" for="">Invoice Total*</label>
+                        <div class="input-group mb-3 fix-nominal">
+                            <span class="input-group-text">Rp.</span>
+                            <input type="text" class="form-control  nominal_only fillPayment" id="spop_total" placeholder="25.000">
+                        </div>
+
+                         <div class="col-2">
+                            <label for="">Proof Of Transfer</label>
+                            <label class="float-start cursor mt-2">
+                                <img src="{{ asset('assets/image-cards.png') }}"  class="w-100 preview_gallery">
+                                <input type="file" accept="image/png, image/jpeg"  name="file" id="input_file_img" class="input-gambar input-gallery" hidden>
+                                <input type="hidden" class="gallery_id" id="gallery_id">
+                            </label>
+                        </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-save-payment">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-center show" id="modalViewPayment"    tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Payment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="fw-bold mb-2">Invoice No.*</label><br>
+                                <label id="view_spoi_nomer">-</label>
+                            </div>
+                            <div class="col-6">
+                                <label class="fw-bold mb-2" for="">Payment Date*</label><br>
+                                <label id="view_spop_date">-</label>
+                            </div>
+                        </div>
+                       
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <label  class="fw-bold mb-2">Payment Method*</label><br>
+                                <label id="view_spop_type">-</label>
+                            </div>
+                            <div class="col-6">
+                                <label class="fw-bold mb-2">Invoice Total*</label><br>
+                                <label id="view_spop_total">-</label>
+                            </div>
+                        </div>
+                       
+                        <div class="row mt-3">
+                            <div class="col-6">
+                                <label class="fw-bold mb-2">Proof Of Transfer</label><br>
+                                <img src="" id="view_spop_img" alt="" style="width: 150px">
+                            </div>
+                        </div>
+
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <a type="button" class="btn btn-success btn-download" download>Download Image</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
 @endsection
 
 @section('Custom_js')
     <script>
+        var spo_id = "{{ $spo_id }}";    
+        var dataPo = @json($dataPo);    
         var public = "{{ asset('') }}";    
         var uploadImageUrl = "{{ asset('assets/image-cards.png') }}";
     </script>
-    <script src="{{asset('custom_js/Supplier/Supplier.js')}}"></script>
+    <script src="{{asset('custom_js/Supplier/PurchaseOrderDetail.js')}}"></script>
 @endsection

@@ -136,7 +136,7 @@
     $(document).on("click",".btn_edit",function(){
         var data = $('#tableCategory').DataTable().row($(this).parents('tr')).data();//ambil data dari table
         mode=2;
-        
+        $('#modalInsert .modal-title').html("Edit Category");
         $('#modalInsert input').empty().val("");
         $('#category_name').val(data.category_name);
         $('.'+data.category_img).addClass('icons-active');

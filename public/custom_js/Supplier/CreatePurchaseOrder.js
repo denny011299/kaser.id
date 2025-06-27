@@ -3,21 +3,27 @@
     var mode=1;
     var type=1;//1=Product, 2 = bahan baku
     var subtotal=0,ppn=0,grand=0;
-    loading(".row-product");
-    getProduct();
+    reset();
     autocompleteSupplier("#sp_id",null,0);
     $('#order_date').val(getCurrentDate());
 
-    function getProduct (type=1) {//1 = Add, 2 = Edit
+    function getProduct (type=1) {
+        loading(".row-product");
         $.ajax({
-            url:"/admin/getProduct",
+            url:"/admin/getSupplierPrice",
             data:{
+                sp_id:$('#sp_id').val(),
+                type:type,
                 _token:token
             },
             method:"get",
             success:function(e){
                 product = JSON.parse(e);
-                refreshProduct();
+                if(product.length>0)refreshProduct();
+                else {
+                    $('.loading').remove();
+                    notFound();
+                }
             },
             error:function(e){
                 console.log(e);
@@ -29,22 +35,28 @@
         $(".row-product").html("");
         product.forEach((item,index) => {
             console.log(item);
-            
+            var img = ``;
+            if(item.pr_img)img=`<img class="card-img  rounded" src="${public+item.pr_img}" alt="Card image">`;
+            else img =` 
+                <div class="iconSup pt-1 w-100 text-center">
+                    <span class="mdi mdi-archive-outline"></span>
+                </div>
+            `;
             $(".row-product").append(`
                 <div class="card card-item" idx="${index}" >
                     <div class="card-body p-2 pt-1">
                         <div class="row no-gutters align-items-center">
                             <div class="col-md-4">
-                                <img class="card-img  rounded" src="${public+item.pr_img}" alt="Card image">
+                                ${img}
                             </div>
                             <div class="col-md-8 pt-2">
-                                <h5 class="card-title mb-1" style="font-size:11pt;">${item.pr_name}</h5>
-                                <p class="text-muted" style="font-size:8pt;">${item.pr_deskripsi}</p>
+                                <h5 class="card-title mb-1" style="font-size:11pt;">${item.pr_name?item.pr_name:item.sup_name}</h5>
+                                <p class="text-muted" style="font-size:8pt;">${item.pr_deskripsi?item.pr_deskripsi:"-"}</p>
                             </div>
                         </div>
                         <div class="row mt-2">
                             <div class="col-6">
-                                <p class="card-text fw-bold" style="font-size:12pt"><small class="text-muted">Rp.</small>${formatRupiah(item.pr_price)}</p>
+                                <p class="card-text fw-bold" style="font-size:12pt"><small class="text-muted">Rp.</small>${formatRupiah(item.spr_price?item.spr_price:item.spr_price)}</p>
                             </div>
                             <div class="col-6 text-end ">
                                 <button class="btn btn-outline-primary btn-sm btn-add-to-cart" index="${index}" type="button" style="border-radius:100px;">+ Add To Cart</button>
@@ -61,7 +73,7 @@
     $(document).on("click",".btn-add-to-cart",function () {
         var index = $(this).attr("index");
 
-        if(product[index].list_variasi.length>0){
+        if(product[index].list_variasi&&product[index].list_variasi.length>0){
             //ada variant
             $('#modal-img').attr("src",public+product[index].pr_img);
             $('#modal-item-title').html(product[index].pr_name);
@@ -72,7 +84,6 @@
             $('#modalVariant').modal("show");
         }
         else{
-            console.log(product[index]);
             
             insertNewData(product[index]);
         }
@@ -146,7 +157,7 @@
         var idx = -1;
         var newMenuVariantSelected = [];
         var newNamaMenuVariantSelected = "";
-        console.log(data);
+       
         
         if(data.variant&&data.variant.length >0){
             $(`.row-variant-item .btn-variant:checked`).each(function(){
@@ -155,7 +166,7 @@
             });
         }
         cart.forEach((item,index) => {
-            if(data.pr_name&&item.name == data.pr_name  || data.sp_name&&item.name == data.sp_name){
+            if(data.pr_name&&item.name == data.pr_name  || data.sup_id&&item.sup_id == data.sup_id){
                 idx = index;
                 if(data.variant&&data.variant.length>0){
                     item.variant.forEach(itemVariasi => {
@@ -178,7 +189,7 @@
                     "fullname":data.pr_name+(newNamaMenuVariantSelected!=""?"<br>"+newNamaMenuVariantSelected:""),
                     "pr_id":data.pr_id,
                     "name":data.pr_name,
-                    "price":data.pr_price,
+                    "price":data.spr_price,
                     "type":type,
                     "variant":newMenuVariantSelected.length>0?newMenuVariantSelected:null,
                     "qty":1,
@@ -187,18 +198,21 @@
             }
             else{
                 cart.push({
-                    "fullname":data.pr_name,
-                    "pr_id":data.pr_id,
-                    "name":data.pr_name,
-                    "price":data.pr_price,
+                    "fullname":data.sup_name,
+                    "sup_id":data.sup_id,
+                    "name":data.sup_name,
+                    "price":data.spr_price,
+                    "type":type,
                     "variant":"",
                     "qty":1,
-                    "subtotal":data.pr_price,
+                    "subtotal":data.spr_price,
                 })
             }
         }
         else{
             cart[idx].qty++;
+            cart[idx].subtotal = cart[idx].qty*cart[idx].price;
+
         }
         refreshList();
         $('.modal').modal("hide");
@@ -233,20 +247,39 @@
     
     $(document).on("change","#sp_id",function () {
         var dt = $(this).select2("data")[0];
-        $('#text_to_name').html(dt.sp_name);
-        $('#text_to_address').html(dt.sp_address);
-        $('#text_to_nomor').html(dt.sp_nomer);
+        cart = [];
+        refreshList();
+        if (dt) {
+            $('#text_to_name').html(dt.sp_name);
+            $('#text_to_address').html(dt.sp_address);
+            $('#text_to_nomor').html(dt.sp_nomer);
+            getProduct(type);
+        } else {
+            // Saat di-clear
+            $('#text_to_name').html('-');
+            $('#text_to_address').html('-');
+            $('#text_to_nomor').html('-');
+        }
     });
 
     $(document).on("keyup","#sign_by",function () {
         $('#text_sign_by').html($(this).val());
     });
    
-    $(document).on("click",".btnType",function () {
-        mode = $(this).attr("mode");
-        loading(".row-product");
-        if(mode==1) getProduct();
-        else getSupplies();
+    $(document).on("change","#btnType",function () {
+        if($(this).is(":checked")){
+            type=2;
+        }
+        else type=1;
+        console.log($('#sp_id').val());
+        
+        if($('#sp_id').val()==null){
+           reset();
+        }
+        else{
+            getProduct(type);
+        }
+        
     });
     
     $(document).on("keyup","#search",function () {
@@ -256,32 +289,45 @@
             $('.card-item').hide();
             $('.card-item').each(function(){
                 var idx =$(this).attr("idx");
-                if(product[idx].pr_name.toLowerCase().includes(search.toLowerCase())){
-                    $(this).show();
-                }
-                if(product[idx].pr_sku.toLowerCase().includes(search.toLowerCase())){
-                    $(this).show();
-                }
-                if(search == product[idx].pr_barcode){
-                    $(this).show();
+                if(type==1){
+                    if(product[idx].pr_name.toLowerCase().includes(search.toLowerCase())){
+                        $(this).show();
+                    }
+                    if(product[idx].pr_sku.toLowerCase().includes(search.toLowerCase())){
+                        $(this).show();
+                    }
+                    if(search == product[idx].pr_barcode){
+                        $(this).show();
+                    }
+                }else{
+                    if(product[idx].sup_name.toLowerCase().includes(search.toLowerCase())){
+                        $(this).show();
+                    }
+                    if(product[idx].sup_sku.toLowerCase().includes(search.toLowerCase())){
+                        $(this).show();
+                    }
                 }
             });
             console.log($('.card-item:visible').length);
             
             if($('.card-item:visible').length<=0){
-                $('.row-product').append(`
-                    <div class="text-center not-found mt-5 pt-5" style="color:#93c3e0;">
-                        <span class="mdi mdi-archive-remove" style="font-size:56pt"></span>
-                        <h5 class="mt-0" style="margin-top:-10px!important">Item Not Found</h5>
-                    </div>    
-                `);
+               notFound();
             }
         }
         else{
-            $('.card-item').show();
+            if($('.card-item').length>0)$('.card-item').show();
+            else notFound();
         }
     });
-
+    
+    function notFound() {
+        $('.row-product').append(`
+            <div class="text-center not-found mt-5 pt-5" style="color:#93c3e0;">
+                <span class="mdi mdi-archive-remove" style="font-size:56pt"></span>
+                <h5 class="mt-0" style="margin-top:-10px!important">Item Not Found</h5>
+            </div>    
+        `);
+    }
     function refreshList() {
         $('#tbDetail').html("");
         var total =0;
@@ -317,7 +363,7 @@
         var url ="/admin/insertPurchaseOrder";
         var valid=1;
 
-        $("#modalInsert .fill").each(function(){
+        $(".fill").each(function(){
             if($(this).val()==null||$(this).val()=="null"||$(this).val()==""){
                 valid=-1;
                 $(this).addClass('is-invalid');
@@ -326,8 +372,7 @@
 
 
         if(valid==-1){
-            notifikasi('error', "Gagal Insert", 'Silahkan cek kembali inputan anda');
-            ResetLoadingButton('.btn-save', 'Save changes');
+            ResetLoadingButton('#btn-save', 'Save changes');
             return false;
         };
 
@@ -357,7 +402,7 @@
             },
             success:function(e){      
                 ResetLoadingButton("#btn-save", 'Save changes');      
-                afterInsert();
+                afterInsert(e);
             },
             error:function(e){
                 ResetLoadingButton("#btn-save", 'Save changes');
@@ -365,13 +410,25 @@
             }
         });
     });
+    function afterInsert(id) {
+        window.location.href ="/admin/PurchaseOrderDetail/"+id;
+    }
 
     function loading(id) {
         $(id).html(`
-            <div class="text-center mt-5 pt-5">
+            <div class="text-center mt-5 pt-5 loading">
                 <div class="spinner-grow text-primary m-2 mx-auto" role="status" style="width: 6rem; height: 6rem;">
                     <span class="visually-hidden">Loading...</span>
                 </div>    
             </div>
+        `);
+    }
+
+    function reset() {
+        $(".row-product").html(`
+            <div class="text-center not-found mt-5 pt-5" style="color:#93c3e0;">
+                <span class="mdi mdi-domain" style="font-size:56pt"></span>
+                <h5 class="mt-0" style="margin-top:-10px!important">Select Supplier First</h5>
+            </div>    
         `);
     }

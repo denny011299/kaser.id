@@ -23,6 +23,8 @@ Route::post('/autocompleteSupplier', [AutocompleteController::class,"autocomplet
 Route::post('/autocompleteCategory', [AutocompleteController::class,"autocompleteCategory"]);
 Route::post('/autocompleteUnit', [AutocompleteController::class,"autocompleteUnit"]);
 Route::post('/autocompleteProductVariant', [AutocompleteController::class,"autocompleteProductVariant"]);
+Route::post('/autocompleteProduct', [AutocompleteController::class,"autocompleteProduct"]);
+Route::post('/autocompleteSupplies', [AutocompleteController::class,"autocompleteSupplies"]);
 
 Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::get('/',[GeneralController::class,"index"]);
@@ -108,8 +110,24 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/insertCategoryStaff', [StaffController::class, "insertCategoryStaff"])->name('insertCategoryStaff');
     Route::post('/updateCategoryStaff', [StaffController::class, "updateCategoryStaff"])->name('updateCategoryStaff');
     Route::post('/deleteCategoryStaff', [StaffController::class, "deleteCategoryStaff"])->name('deleteCategoryStaff');
-
+    
     Route::get('/Receipt',[PengaturanController::class,"Receipt"]);
     Route::post('/getPengaturan',[PengaturanController::class,"getPengaturan"])->name('getPengaturan');
     Route::post('/updatePengaturan',[PengaturanController::class,"updatePengaturan"])->name('updatePengaturan');
+
+    Route::get('/getPoInvoice', [SupplierController::class, "getPoInvoice"])->name('getPoInvoice');
+    Route::post('/insertPoInvoice', [SupplierController::class, "insertPoInvoice"])->name('insertPoInvoice');
+    Route::post('/updatePoInvoice', [SupplierController::class, "updatePoInvoice"])->name('updatePoInvoice');
+    Route::post('/deletePoInvoice', [SupplierController::class, "deletePoInvoice"])->name('deletePoInvoice');
+    
+
+    Route::get('/getPaymentPo', [SupplierController::class, "getPaymentPo"])->name('getPaymentPo');
+    Route::post('/insertPaymentPo', [SupplierController::class, "insertPaymentPo"])->name('insertPaymentPo');
+    Route::post('/updatePaymentPo', [SupplierController::class, "updatePaymentPo"])->name('updatePaymentPo');
+    Route::post('/deletePaymentPo', [SupplierController::class, "deletePaymentPo"])->name('deletePaymentPo');
+   
+    Route::get('/getCustomerPrice', [CustomerController::class, "getCustomerPrice"])->name('getCustomerPrice');
+    Route::post('/insertCustomerPrice', [CustomerController::class, "insertCustomerPrice"])->name('insertCustomerPrice');
+    Route::post('/updateCustomerPrice', [CustomerController::class, "updateCustomerPrice"])->name('updateCustomerPrice');
+    Route::post('/deleteCustomerPrice', [CustomerController::class, "deleteCustomerPrice"])->name('deleteCustomerPrice');
 });
