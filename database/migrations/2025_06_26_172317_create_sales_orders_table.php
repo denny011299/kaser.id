@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sales_orders', function (Blueprint $table) {
             $table->integerIncrements('so_id');
-            $table->string('spo_nomer');
+            $table->string('so_nomer');
             $table->date('so_tanggal');
             $table->string('so_from_company',100);
             $table->string('so_from_address',100);

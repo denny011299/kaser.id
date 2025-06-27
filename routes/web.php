@@ -25,6 +25,7 @@ Route::post('/autocompleteUnit', [AutocompleteController::class,"autocompleteUni
 Route::post('/autocompleteProductVariant', [AutocompleteController::class,"autocompleteProductVariant"]);
 Route::post('/autocompleteProduct', [AutocompleteController::class,"autocompleteProduct"]);
 Route::post('/autocompleteSupplies', [AutocompleteController::class,"autocompleteSupplies"]);
+Route::post('/autocompleteCustomer', [AutocompleteController::class,"autocompleteCustomer"]);
 
 Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::get('/',[GeneralController::class,"index"]);
@@ -98,13 +99,13 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::get('/updateProduct/{id}', [ProductController::class, "ViewUpdateProduct"])->name('ViewUpdateProduct');
     Route::post('/updateProduct', [ProductController::class, "updateProduct"])->name('updateProduct');
     Route::post('/deleteProduct', [ProductController::class, "deleteProduct"])->name('deleteProduct');
-
+    
     Route::get('/manageSupplies',[StockController::class,"manageSupplies"]);
     Route::get('/getManageSupplies', [StockController::class, "getManageSupplies"])->name('getManageSupplies');
     Route::post('/insertManageSupplies', [StockController::class, "insertManageSupplies"])->name('insertManageSupplies');
     Route::post('/updateManageSupplies', [StockController::class, "updateManageSupplies"])->name('updateManageSupplies');
     Route::post('/deleteManageSupplies', [StockController::class, "deleteManageSupplies"])->name('deleteManageSupplies');
-
+    
     Route::get('/CategoryStaff',[StaffController::class,"CategoryStaff"]);
     Route::get('/getCategoryStaff', [StaffController::class, "getCategoryStaff"])->name('getCategoryStaff');
     Route::post('/insertCategoryStaff', [StaffController::class, "insertCategoryStaff"])->name('insertCategoryStaff');
@@ -120,14 +121,22 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/updatePoInvoice', [SupplierController::class, "updatePoInvoice"])->name('updatePoInvoice');
     Route::post('/deletePoInvoice', [SupplierController::class, "deletePoInvoice"])->name('deletePoInvoice');
     
-
+    
     Route::get('/getPaymentPo', [SupplierController::class, "getPaymentPo"])->name('getPaymentPo');
     Route::post('/insertPaymentPo', [SupplierController::class, "insertPaymentPo"])->name('insertPaymentPo');
     Route::post('/updatePaymentPo', [SupplierController::class, "updatePaymentPo"])->name('updatePaymentPo');
     Route::post('/deletePaymentPo', [SupplierController::class, "deletePaymentPo"])->name('deletePaymentPo');
-   
+    
     Route::get('/getCustomerPrice', [CustomerController::class, "getCustomerPrice"])->name('getCustomerPrice');
     Route::post('/insertCustomerPrice', [CustomerController::class, "insertCustomerPrice"])->name('insertCustomerPrice');
     Route::post('/updateCustomerPrice', [CustomerController::class, "updateCustomerPrice"])->name('updateCustomerPrice');
     Route::post('/deleteCustomerPrice', [CustomerController::class, "deleteCustomerPrice"])->name('deleteCustomerPrice');
+    
+    Route::get('/salesOrder',[CustomerController::class,"salesOrder"]);
+    Route::get('/salesOrderDetail/{id}',[CustomerController::class,"salesOrderDetail"]);
+    Route::get('/createSalesOrder',[CustomerController::class,"createSalesOrder"]);
+    Route::get('/getSalesOrder', [CustomerController::class, "getSalesOrder"])->name('getSalesOrder');
+    Route::post('/insertSalesOrder', [CustomerController::class, "insertSalesOrder"])->name('insertSalesOrder');
+    Route::post('/updateSalesOrder', [CustomerController::class, "updateSalesOrder"])->name('updateSalesOrder');
+    Route::post('/deleteSalesOrder', [CustomerController::class, "deleteSalesOrder"])->name('deleteSalesOrder');
 });

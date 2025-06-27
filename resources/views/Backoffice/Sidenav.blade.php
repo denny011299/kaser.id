@@ -98,7 +98,7 @@
                                             <a href="/admin/invoice" class="tp-link">Invoice</a>
                                         </li>
                                         <li>
-                                            <a href="/admin/invoice" class="tp-link">Sales Order</a>
+                                            <a href="/admin/salesOrder" class="tp-link">Sales Order</a>
                                         </li>
                                     </ul>
                                 </div>
