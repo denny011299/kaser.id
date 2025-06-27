@@ -151,6 +151,20 @@
                                     </ul>
                                 </div>
                             </li>
+                            <li>
+                                <a href="#sidebarSetting" data-bs-toggle="collapse">
+                                    <span class="mdi mdi-cog me-1" style="font-size: 16pt"></span>
+                                    <span> Setting </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarSetting">
+                                    <ul class="nav-second-level">
+                                        <li>
+                                            <a href="/admin/Receipt" class="tp-link">Receipt</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
 
 
                         </ul>

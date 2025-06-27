@@ -4,8 +4,10 @@ use App\Http\Controllers\AutocompleteController;
 use App\Http\Controllers\CashierController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
@@ -107,4 +109,7 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/updateCategoryStaff', [StaffController::class, "updateCategoryStaff"])->name('updateCategoryStaff');
     Route::post('/deleteCategoryStaff', [StaffController::class, "deleteCategoryStaff"])->name('deleteCategoryStaff');
 
+    Route::get('/Receipt',[PengaturanController::class,"Receipt"]);
+    Route::post('/getPengaturan',[PengaturanController::class,"getPengaturan"])->name('getPengaturan');
+    Route::post('/updatePengaturan',[PengaturanController::class,"updatePengaturan"])->name('updatePengaturan');
 });
