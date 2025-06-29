@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\CategoryStaff;
 use App\Models\city;
+use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Product_unit;
 use App\Models\Product_variant;
@@ -155,6 +156,23 @@ class AutocompleteController extends Controller
         foreach ($data as $r) {
             $r->id = $r["cs_id"];
             $r->text = $r["cs_name"];
+        };
+        echo json_encode(array(
+            "data" => $data
+        ));
+    }
+    
+    public function autocompleteCustomer(Request $req)
+    {
+        $keyword = isset($req->keyword) ? $req->keyword : null;
+
+        $p = new Customer();
+        $data = $p->getCustomer([
+            "cus_name" => $keyword
+        ]);
+        foreach ($data as $r) {
+            $r->id = $r["cus_id"];
+            $r->text = $r["cus_name"];
         };
         echo json_encode(array(
             "data" => $data

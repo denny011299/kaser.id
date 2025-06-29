@@ -31,7 +31,7 @@ class CustomerPrice extends Model
                 $value->pr_name = $p->pr_name;
                 $value->pr_sku = $p->pr_sku;
                 $value->pr_barcode = $p->pr_barcode;
-                $value->pr_price = $value->spr_price;
+                $value->pr_price = $value->cp_price;
                 $value->pr_deskripsi = $p->pr_deskripsi;
                 $value->pr_img = $p->pr_img;
                 $value->c_name = $c->category_name;
