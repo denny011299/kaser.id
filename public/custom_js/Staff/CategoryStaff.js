@@ -3,7 +3,7 @@
     $(document).on('click','.btnAdd',function(){
         mode=1;
         $('#modalInsert input').val("");
-        $('#modalInsert .modal-title').html("Add New Category Staff");
+        $('#modalInsert .modal-title').html("Add New Staff Position");
         $('.is-invalid').removeClass('is-invalid');
         $('#modalInsert').modal("show");
     })
@@ -129,7 +129,7 @@
     $(document).on("click",".btn_edit",function(){
         var data = $('#tableCategoryStaff').DataTable().row($(this).parents('tr')).data();//ambil data dari table
         mode=2;
-        
+        $('#modalInsert .modal-title').html("Edit Staff Position");
         $('#modalInsert input').empty().val("");
         $('#cs_name').val(data.cs_name);
 

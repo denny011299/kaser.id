@@ -25,6 +25,7 @@ Route::post('/autocompleteUnit', [AutocompleteController::class,"autocompleteUni
 Route::post('/autocompleteProductVariant', [AutocompleteController::class,"autocompleteProductVariant"]);
 Route::post('/autocompleteProduct', [AutocompleteController::class,"autocompleteProduct"]);
 Route::post('/autocompleteSupplies', [AutocompleteController::class,"autocompleteSupplies"]);
+Route::post('/autocompleteCategoryStaff', [AutocompleteController::class,"autocompleteCategoryStaff"]);
 
 Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::get('/',[GeneralController::class,"index"]);
@@ -105,7 +106,7 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/updateManageSupplies', [StockController::class, "updateManageSupplies"])->name('updateManageSupplies');
     Route::post('/deleteManageSupplies', [StockController::class, "deleteManageSupplies"])->name('deleteManageSupplies');
 
-    Route::get('/CategoryStaff',[StaffController::class,"CategoryStaff"]);
+    Route::get('/StaffPosition',[StaffController::class,"CategoryStaff"]);
     Route::get('/getCategoryStaff', [StaffController::class, "getCategoryStaff"])->name('getCategoryStaff');
     Route::post('/insertCategoryStaff', [StaffController::class, "insertCategoryStaff"])->name('insertCategoryStaff');
     Route::post('/updateCategoryStaff', [StaffController::class, "updateCategoryStaff"])->name('updateCategoryStaff');
@@ -130,4 +131,11 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/insertCustomerPrice', [CustomerController::class, "insertCustomerPrice"])->name('insertCustomerPrice');
     Route::post('/updateCustomerPrice', [CustomerController::class, "updateCustomerPrice"])->name('updateCustomerPrice');
     Route::post('/deleteCustomerPrice', [CustomerController::class, "deleteCustomerPrice"])->name('deleteCustomerPrice');
+
+    Route::get('/Staff',[StaffController::class,"Staff"]);
+    Route::get('/staffDetail/{id}', [StaffController::class, "staffDetail"])->name('staffDetail');
+    Route::get('/getStaff', [StaffController::class, "getStaff"])->name('getStaff');
+    Route::post('/insertStaff', [StaffController::class, "insertStaff"])->name('insertStaff');
+    Route::post('/updateStaff', [StaffController::class, "updateStaff"])->name('updateStaff');
+    Route::post('/deleteStaff', [StaffController::class, "deleteStaff"])->name('deleteStaff');
 });

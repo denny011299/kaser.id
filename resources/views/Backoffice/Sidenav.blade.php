@@ -146,7 +146,10 @@
                                 <div class="collapse" id="sidebarStaff">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <a href="/admin/CategoryStaff" class="tp-link">Category Staff</a>
+                                            <a href="/admin/Staff" class="tp-link">Staff</a>
+                                        </li>
+                                        <li>
+                                            <a href="/admin/StaffPosition" class="tp-link">Staff Position</a>
                                         </li>
                                     </ul>
                                 </div>

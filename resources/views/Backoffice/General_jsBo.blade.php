@@ -310,11 +310,68 @@
         });
     }
 
+    function autocompleteCategoryStaff(id, modalParent = null,length=3) {
+        //search country dan city
+        $(id).select2({
+            ajax: {
+                url: "/autocompleteCategoryStaff",
+                dataType: "json",
+                type: "post",
+                data: function data(params) {
+                    return {
+                        "keyword": params.term,
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    };
+                },
+                processResults: function processResults(data) {
+                    return {
+                        results: $.map(data.data, function(item) {
+                            return item;
+                        }),
+                    };
+                },
+            },
+            placeholder: "Staff Position",
+            closeOnSelect: true,
+            allowClear: true,
+            theme: "bootstrap-5",
+            width: "100%",
+            dropdownParent: modalParent ? $(modalParent) : "",
+        });
+    }
+
     function getCurrentDate(daysAfter = 0) {
         let local = new Date();
         local.setMinutes(local.getMinutes() - local.getTimezoneOffset());
         local.setDate(local.getDate() + daysAfter); // Add the specified number of days
         return local.toJSON().slice(0, 10);
+    }
+
+    function calculateAge(birthDateString) {
+        console.log(birthDateString)
+        const birthDate = new Date(birthDateString);
+        const today = new Date();
+
+        // Get days of each month
+        const daysInMonth = [31, (today.getFullYear() % 4 === 0 ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+        let years = today.getFullYear() - birthDate.getFullYear();
+        let months = today.getMonth() - birthDate.getMonth();
+        let days = today.getDate() - birthDate.getDate();
+
+        // Handle negative days (borrow days from the month)
+        if (days < 0) {
+            months--;
+            days += daysInMonth[(today.getMonth() - 1 + 12) % 12]; // Get last month days count
+        }
+
+        // Handle negative months (borrow months from the year)
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        return `${years} Tahun, ${months} Bulan, ${days} Hari`;
     }
 
 </script>
