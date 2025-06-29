@@ -1,11 +1,10 @@
     var mode=1;
-    refreshStatus(dataPo.spo_status);
+    refreshStatus(dataPo.so_status);
     refreshPoInvoice();
     $(document).on("click",".btn-add-invoice",function(){
         mode=1;
-        
         $('#modalInsert input').val("");
-        $('#spoi_date').val(getCurrentDate());
+        $('#soi_date').val(getCurrentDate());
         $('#modalInsert').modal("show");
     });
 
@@ -27,20 +26,20 @@
             deferLoading: 10,
             deferRender: true,
             ajax: {
-                url: "/admin/getPoInvoice",
+                url: "/admin/getSoInvoice",
                 type: "get",
                 data:{
-                    spo_id:spo_id
+                    so_id:so_id
                 },
                 dataSrc: function (json) {
                     for (var i = 0; i < json.length; i++) {
                         var color = "bg-success";
-                        if(json[i].spoi_status=="Unpaid") color="bg-danger";
-                        else if(json[i].spoi_status=="Half Paid") color="bg-warning";
-                        else if(json[i].spoi_status=="Canceled") color="bg-secondary";
-                        json[i].spoi_tanggal_text = moment(json[i].spoi_tanggal).format('D MMM YYYY');
-                        json[i].spoi_total_text = formatRupiah(json[i].spoi_total,"Rp.");
-                        json[i].spoi_status_text = `<span class="badge ${color}">${json[i].spoi_status}</span>`;
+                        if(json[i].soi_status=="Unpaid") color="bg-danger";
+                        else if(json[i].soi_status=="Half Paid") color="bg-warning";
+                        else if(json[i].soi_status=="Canceled") color="bg-secondary";
+                        json[i].soi_tanggal_text = moment(json[i].soi_tanggal).format('D MMM YYYY');
+                        json[i].soi_total_text = formatRupiah(json[i].soi_total,"Rp.");
+                        json[i].soi_status_text = `<span class="badge ${color}">${json[i].soi_status}</span>`;
               
                         if(dataPo.spo_status!="Done"){
                             json[i].action=`
@@ -70,10 +69,10 @@
                 
             },
             columns: [
-                { data: "spoi_tanggal_text", className: "text-center"},
-                { data: "spoi_nomer", className: "text-start"},
-                { data: "spoi_total_text", className: "text-end"},
-                { data: "spoi_status_text", className: "text-center"},
+                { data: "soi_tanggal_text", className: "text-center"},
+                { data: "soi_nomer", className: "text-start"},
+                { data: "soi_total_text", className: "text-end"},
+                { data: "soi_status_text", className: "text-center"},
                 { data: "action", className: "text-center"},
             ],
             searching: false,
@@ -96,7 +95,7 @@
     $(document).on("click",".btn-save",function(){
         LoadingButton(this);
         $('.is-invalid').removeClass('is-invalid');
-        var url ="/admin/insertPoInvoice";
+        var url ="/admin/insertSoInvoice";
         var valid=1;
 
         $("#modalInsert .fill").each(function(){
@@ -114,16 +113,16 @@
         };
 
         param = {
-            spo_id:spo_id,
-            spoi_date:$('#spoi_date').val(),
-            spoi_nomer:$('#spoi_nomer').val(),
-            spoi_total:convertToAngka($('#spoi_total').val()),
+            so_id:so_id,
+            soi_date:$('#soi_date').val(),
+            soi_due_date:$('#soi_due_date').val(),
+            soi_total:convertToAngka($('#soi_total').val()),
              _token:token
         };
 
         if(mode==2){
-            url="/admin/updatePoInvoice";
-            param.spo_id = $('#modalInsert').attr("spo_id");
+            url="/admin/updateSoInvoice";
+            param.soi_id = $('#modalInsert').attr("soi_id");
         }
 
         LoadingButton($(this));
@@ -149,30 +148,30 @@
         $(".modal").modal("hide");
         if(mode==1)notifikasi('success', "Berhasil Insert", "Berhasil menambah Invoice");
         else if(mode==2)notifikasi('success', "Berhasil Update", "Berhasil update Invoice");
-        refreshPoInvoice();
+        refreshSoInvoice();
     }
 
     //delete
     $(document).on("click",".btn_delete",function(){
         var data = $('#tablePoInvoice').DataTable().row($(this).parents('tr')).data();//ambil data dari table
-        showModalDelete("Apakah yakin ingin mengahapus Purchase Order ini?","btn-delete-PoInvoice");
-        $('#btn-delete-PoInvoice').attr("spoi_id", data.spoi_id);
+        showModalDelete("Apakah yakin ingin mengahapus Sales Order ini?","btn-delete-SoInvoice");
+        $('#btn-delete-SoInvoice').attr("soi_id", data.soi_id);
     });
 
 
 
-    $(document).on("click","#btn-delete-PoInvoice",function(){
+    $(document).on("click","#btn-delete-SoInvoice",function(){
         $.ajax({
-            url:"/admin/deletePoInvoice",
+            url:"/admin/deleteSoInvoice",
             data:{
-                spoi_id:$('#btn-delete-PoInvoice').attr('spoi_id'),
+                soi_id:$('#btn-delete-SoInvoice').attr('soi_id'),
                 _token:token
             },
             method:"post",
             success:function(e){
                 $('.modal').modal("hide");
-                refreshPoInvoice();
-                notifikasi('success', "Berhasil Delete", "Berhasil delete Purchase Order ");
+                refreshSoInvoice();
+                notifikasi('success', "Berhasil Delete", "Berhasil delete Sales Order ");
                 
             },
             error:function(e){
@@ -187,13 +186,14 @@
         mode=2;
         $('#modalInsert .modal-title').html("Edit Invoice");
         $('#modalInsert input').empty().val("");
-        $('#spoi_date').val(data.spoi_date);
-        $('#spoi_nomer').val(data.spoi_nomer);
-        $('#spoi_total').val(formatRupiah(data.spoi_total));
+        $('#soi_date').val(data.soi_date);
+        $('#soi_due_date').val(data.soi_due_date);
+        $('#soi_total').val(formatRupiah(data.soi_total));
 
         $('#modalInsert').modal("show");
-        $('#modalInsert').attr("spoi_id", data.spoi_id);
+        $('#modalInsert').attr("soi_id", data.soi_id);
     });
+    
     //payment
     function refreshPayment() {
         $("#tablePaymentPo").dataTable({
@@ -206,7 +206,7 @@
                 url: "/admin/getPaymentPo",
                 type: "get",
                 data:{
-                    spo_id:spo_id
+                    so_id:so_id
                 },
                 dataSrc: function (json) {
                     for (var i = 0; i < json.length; i++) {
@@ -315,7 +315,7 @@
                 'X-CSRF-TOKEN': token
             },
             success:function(e){      
-                refreshStatus(e.spo_status);
+                refreshStatus(e.so_status);
                 ResetLoadingButton(".btn-save-payment", 'Save changes');      
                 afterInsertPayment();
             },

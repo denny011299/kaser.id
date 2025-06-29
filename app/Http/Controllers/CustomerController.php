@@ -7,6 +7,7 @@ use App\Models\CustomerPrice;
 use App\Models\pengaturan;
 use App\Models\SalesOrder;
 use App\Models\SalesOrderDetail;
+use App\Models\SalesOrderDetailInvoice;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -91,7 +92,7 @@ class CustomerController extends Controller
     
     function salesOrderDetail($id) {
         $param["dataPo"] = (new SalesOrder())->getSalesOrder(["so_id"=>$id])[0];
-        $param["data"] =(new customer)->getCustomer(["cus_id"=>$id])[0];
+        $param["data"] =(new customer)->getCustomer(["cus_id"=>$param["dataPo"]["cus_id"]])[0];
         $param["so_id"] =$id;
         return view('Backoffice.Customer.SalesOrderDetail')->with($param);
     }
@@ -142,6 +143,36 @@ class CustomerController extends Controller
         $data = $req->all();
         return (new salesOrder())->deleteSalesOrder($data);
     }
+
+     //Invoice PO
+    function getSoInvoice(Request $req)
+    {
+        $data =  (new SalesOrderDetailInvoice())->getInvoices([
+            "spo_id" => $req->spo_id,
+            "spoi_id" => $req->spoi_id,
+            "spoi_nomer" => $req->spoi_nomer,
+        ]);
+        return json_encode($data);
+    }
+
+    function insertSoInvoice(Request $req)
+    {
+        $data = $req->all();
+        (new SalesOrderDetailInvoice())->insertInvoice($data);
+    }
+
+    function updateSoInvoice(Request $req)
+    {
+        $data = $req->all();
+        (new SalesOrderDetailInvoice())->updateInvoice($data);
+    }
+
+    function deleteSoInvoice(Request $req)
+    {
+        $data = $req->all();
+        return (new SupplierPurchaseOrderInvoice())->deleteInvoice($data);
+    }
+
 
         //lain lain
     public function insertFile($file, $type)

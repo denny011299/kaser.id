@@ -39,7 +39,7 @@
                                 <div class="row mt-2">
                                     <div class="col-4">
                                         <p class="mb-0">Telphone : {{$data["cus_nomer"]}}</p>
-                                        <p>Address : {{$data["sp_address"]}}</p>
+                                        <p>Address : {{$data["cus_address"]}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -128,15 +128,15 @@
                         <div class="row mt-4">
                             <div class="col-6">
                                 <h6 class="fw-bold">From</h6>
-                                <label for="">{{$dataPo["spo_from_company"]}}</label><br>
-                                <label for="">{{$dataPo["spo_from_address"]}}</label><br>
-                                <label for="">{{$dataPo["spo_from_nomer"]}}</label>
+                                <label for="">{{$dataPo["so_from_company"]}}</label><br>
+                                <label for="">{{$dataPo["so_from_address"]}}</label><br>
+                                <label for="">{{$dataPo["so_from_nomer"]}}</label>
                             </div>
                             <div class="col-6">
                                 <h6 class="fw-bold">To</h6>
-                                <label id="text_to_name">{{$dataPo["spo_to_company"]}}</label><br>
-                                <label id="text_to_address">{{$dataPo["spo_to_address"]}}</label><br>
-                                <label id="text_to_nomor">{{$dataPo["spo_nomer"]}}</label>
+                                <label id="text_to_name">{{$dataPo["so_to_company"]}}</label><br>
+                                <label id="text_to_address">{{$dataPo["so_to_address"]}}</label><br>
+                                <label id="text_to_nomor">{{$dataPo["so_nomer"]}}</label>
                             </div>
                         </div>
                         <hr>
@@ -156,13 +156,13 @@
                                 @endphp
                                 @foreach ($dataPo["items"] as $item)
                                     <tr>
-                                        <td class="text-center">{{$item->spod_qty}}</td>
-                                        <td class="text-start">{!!$item->spod_nama!!}</td>
-                                        <td class="text-end">Rp.{{number_format($item->spod_harga,0,",",".")}}</td>
-                                        <td class="text-end">Rp.{{number_format($item->spod_subtotal,0,",",".")}}</td>
+                                        <td class="text-center">{{$item->sod_qty}}</td>
+                                        <td class="text-start">{!!$item->sod_nama!!}</td>
+                                        <td class="text-end">Rp.{{number_format($item->sod_harga,0,",",".")}}</td>
+                                        <td class="text-end">Rp.{{number_format($item->sod_subtotal,0,",",".")}}</td>
                                     </tr>
                                     @php
-                                        $subtotal += $item->spod_subtotal;
+                                        $subtotal += $item->sod_subtotal;
                                     @endphp
                                 @endforeach
                             </tbody>
@@ -173,11 +173,11 @@
                                 </tr>
                                 <tr>
                                     <td class="text-end" colspan="3">PPN (11%)</td>
-                                    <td class="text-end" id="ppn_value">Rp.{{number_format($dataPo["spo_total_ppn"],0,",",".")}}</td>
+                                    <td class="text-end" id="ppn_value">Rp.{{number_format($dataPo["so_total_ppn"],0,",",".")}}</td>
                                 </tr>
                                 <tr class="fw-bold">
                                     <td class="text-end" colspan="3">Grand Total</td>
-                                    <td class="text-end" id="grandTotal_value">Rp. {{number_format($dataPo["spo_total"],0,",",".")}}</td>
+                                    <td class="text-end" id="grandTotal_value">Rp. {{number_format($dataPo["so_total"],0,",",".")}}</td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -185,7 +185,7 @@
                             <div class="col-9"></div>
                             <div class="col-3 text-end">
                                 <div style="height: 50px;border-bottom:1.5px solid gray"></div>
-                                <p class="mt-2" id="text_sign_by">{{$dataPo["spo_sign_by"]}}</p>
+                                <p class="mt-2" id="text_sign_by">{{$dataPo["so_sign_by"]}}</p>
                             </div>
                         </div>
                     </div>
@@ -251,14 +251,14 @@
                 </div>
                 <div class="modal-body">
                   <div class="container-fluid">
-                       <label for="">Invoice No.*</label>
-                       <input type="text" class="form-control fill" name="category_name" id="spoi_nomer" placeholder="Ex INV2201">
-                       <label class="mt-2" for="">Invoice Date*</label>
-                       <input type="date" class="form-control fill" name="category_name" id="spoi_date">
+                      <label  for="">Invoice Date*</label>
+                      <input type="date" class="form-control fill" name="category_name" id="soi_date">
+                       <label class="mt-2" for="">Invoice Due Date*</label>
+                       <input type="date" class="form-control fill" name="category_name" id="soi_due_date" placeholder="Ex INV2201">
                        <label class="mt-2" for="">Invoice Total*</label>
                         <div class="input-group mb-3 fix-nominal">
                             <span class="input-group-text">Rp.</span>
-                            <input type="text" class="form-control  nominal_only" name="vc_nominal" id="spoi_total" placeholder="25.000">
+                            <input type="text" class="form-control  nominal_only" name="vc_nominal" id="soi_total" placeholder="25.000">
                         </div>
                   </div>
                 </div>
@@ -368,10 +368,10 @@
 
 @section('Custom_js')
     <script>
-        var spo_id = "{{ $spo_id }}";    
+        var so_id = "{{ $so_id }}";    
         var dataPo = @json($dataPo);    
         var public = "{{ asset('') }}";    
         var uploadImageUrl = "{{ asset('assets/image-cards.png') }}";
     </script>
-    <script src="{{asset('custom_js/Supplier/PurchaseOrderDetail.js')}}"></script>
+    <script src="{{asset('custom_js/Customer/SalesOrderDetail.js')}}"></script>
 @endsection

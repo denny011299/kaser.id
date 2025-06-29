@@ -121,6 +121,12 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/updatePoInvoice', [SupplierController::class, "updatePoInvoice"])->name('updatePoInvoice');
     Route::post('/deletePoInvoice', [SupplierController::class, "deletePoInvoice"])->name('deletePoInvoice');
     
+
+    Route::get('/getSoInvoice', [CustomerController::class, "getSoInvoice"])->name('getSoInvoice');
+    Route::post('/insertSoInvoice', [CustomerController::class, "insertSoInvoice"])->name('insertSoInvoice');
+    Route::post('/updateSoInvoice', [CustomerController::class, "updateSoInvoice"])->name('updateSoInvoice');
+    Route::post('/deleteSoInvoice', [CustomerController::class, "deleteSoInvoice"])->name('deleteSoInvoice');
+    
     
     Route::get('/getPaymentPo', [SupplierController::class, "getPaymentPo"])->name('getPaymentPo');
     Route::post('/insertPaymentPo', [SupplierController::class, "insertPaymentPo"])->name('insertPaymentPo');
@@ -133,7 +139,7 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/deleteCustomerPrice', [CustomerController::class, "deleteCustomerPrice"])->name('deleteCustomerPrice');
     
     Route::get('/salesOrder',[CustomerController::class,"salesOrder"]);
-    Route::get('/salesOrderDetail/{id}',[CustomerController::class,"salesOrderDetail"]);
+    Route::get('/SalesOrderDetail/{id}',[CustomerController::class,"salesOrderDetail"]);
     Route::get('/createSalesOrder',[CustomerController::class,"createSalesOrder"]);
     Route::get('/getSalesOrder', [CustomerController::class, "getSalesOrder"])->name('getSalesOrder');
     Route::post('/insertSalesOrder', [CustomerController::class, "insertSalesOrder"])->name('insertSalesOrder');

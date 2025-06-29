@@ -18,8 +18,8 @@ refreshSalesOrder();
                 },
                 dataSrc: function (json) {
                     for (var i = 0; i < json.length; i++) {
-                        json[i].spo_tanggal_text = moment(json[i].so_tanggal).format('D MMM YYYY');
-                        json[i].spo_total = formatRupiah(json[i].so_total,"Rp.");
+                        json[i].so_tanggal_text = moment(json[i].so_tanggal).format('D MMM YYYY');
+                        json[i].so_total = formatRupiah(json[i].so_total,"Rp.");
                         json[i].action=`
                             
                             <a href="/admin/SalesOrderDetail/${json[i].so_id}" aria-label="anchor" class="btn btn-sm bg-primary-subtle me-2 btn_edit " data-bs-toggle="tooltip" data-bs-original-title="Edit">
@@ -43,9 +43,9 @@ refreshSalesOrder();
             },
             columns: [
                 { data: "so_nomer", className: "text-left"},
-                { data: "so_tanggal_text", className: "text-left"},
+                { data: "so_tanggal_text", className: "text-center"},
                 { data: "customer_name", className: "text-left"},
-                { data: "so_total", className: "text-left"},
+                { data: "so_total", className: "text-end"},
                 { data: "so_status", className: "text-center"},
                 { data: "action", className: "text-center"},
             ],

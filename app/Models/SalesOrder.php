@@ -21,7 +21,7 @@ class SalesOrder extends Model
 
         $q = self::where('so_status', '!=', 'cancelled');
 
-        if ($data["so_id"])       $q->where("spo_id", $data["so_id"]);
+        if ($data["so_id"])       $q->where("so_id", $data["so_id"]);
         if ($data["cus_id"])        $q->where("sp_id", $data["cus_id"]);
         if ($data["cus_status"])   $q->where("cus_status", $data["cus_status"]);
 
