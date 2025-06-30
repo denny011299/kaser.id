@@ -52,12 +52,12 @@
                         <input type="text" id="r_name" class="form-control" placeholder="Company Name">
                     </div>
                     <div class="mt-3">
-                        <label for="">Company Phone Number</label>
-                        <input type="text" id="r_phone_number" class="form-control number-only" placeholder="Company Phone Number">
-                    </div>
-                    <div class="mt-3">
                         <label for="">Company Address</label>
                         <input type="text" id="r_address" class="form-control" placeholder="Company Address">
+                    </div>
+                    <div class="mt-3">
+                        <label for="">Company Phone Number</label>
+                        <input type="text" id="r_phone_number" class="form-control number-only" placeholder="Company Phone Number">
                     </div>
                     <div class="row">
                         <div class="col-5">
@@ -240,6 +240,7 @@
     <script>
         var public = "{{ asset('') }}";
         var data=@json($data);
+        var dummyLogo = "{{ asset('upload/setting/logo-dummy.jpg') }}";
     </script>
     <script src="{{asset('custom_js/Setting/Receipt.js')}}"></script>
 @endsection

@@ -12,43 +12,44 @@ const quill = new Quill('#editor', {
 
 $(document).ready(function() {
     // Receipt Form
-    $('#r_name').val(data.company_name);
-    $('#r_phone_number').val(data.company_nomor); 
-    $('#r_address').val(data.company_address); 
-    $('#r_font_size').val(data.font_size);
-    $('#r_currency').val(data.currency);
-    $('#r_page_size').val(data.page_size);
+    $('#r_name').val(data.company_name ? data.company_name : "");
+    $('#r_phone_number').val(data.company_nomor ? data.company_nomor : ""); 
+    $('#r_address').val(data.company_address ? data.company_address : ""); 
+    $('#r_font_size').val(data.font_size ? data.font_size : "8").trigger("blur");
+    $('#r_currency').val(data.currency ? data.currency : "IDR").trigger("change");
+    $('#r_page_size').val(data.page_size ? data.page_size : "58").trigger("change");
 
     // Receipt Preview
-    $('#rp_name').html(data.company_name);
-    $('#rp_phone_number').html(data.company_nomor); 
-    $('#rp_address').html(data.company_address);
-    $('#rp_customer_name').html(data.customer_name);
-    $('#rp_footer').html(data.footer_text);
-    $('#rp_logo').attr("src",public+data.company_logo);
+    $('#rp_name').html(data.company_name ? data.company_name : "PT. -");
+    $('#rp_phone_number').html(data.company_nomor ? data.company_nomor : "*Phone Number*"); 
+    $('#rp_address').html(data.company_address ? data.company_address : "*Address*");
+    $('#rp_customer_name').html(data.customer_name ? data.customer_name : "");
+    $('#rp_footer').html(data.footer_text ? data.footer_text : "");
+    $('#rp_logo').attr("src", data.company_logo ? public+data.company_logo : dummyLogo);
+    $('#rp_customer_name').html(data.customer_name ? data.customer_name : "Budi")
 
     // Ukuran font & page preview
-    $("p, td, th").css("font-size", data.font_size + "pt")
-    $(".nota").css("width", data.page_size + "mm");
+    $("p, td, th").css("font-size", data.font_size ? data.font_size + "pt" : "8pt")
+    $(".nota").css("width", data.page_size ? data.page_size + "mm" : "58mm");
 
     // Ukuran header preview
     $("#rp_logo").css({
-        "width": data.font_size*6 + "pt",
-        "height": data.font_size*6 + "pt"
+        "width": data.font_size ? data.font_size*6 + "pt" : "48pt",
+        "height": data.font_size ? data.font_size*6 + "pt" : "48pt"
     })
-    $("#rp_name").css("font-size", data.font_size*1.8 + "pt")
-    $("#rp_address, #rp_phone_number").css("font-size", data.font_size*1.2 + "pt")
+    $("#rp_name").css("font-size", data.font_size ? data.font_size*1.8 + "pt" : "14.4pt")
+    $("#rp_address, #rp_phone_number").css("font-size", data.font_size ? data.font_size*1.2 + "pt" : "9.6pt")
 
     // Barcode Preview
     JsBarcode("#barcode", "1234", {
         lineColor: "#000",
-        width: data.page_size / 16.5,
-        height: data.page_size/1.7,
+        width: data.page_size ? data.page_size / 16.5 : 3.5,
+        height: data.page_size ? data.page_size/1.7 : 34.1,
         displayValue: false
     });
 
     // Quill Preview
-    quill.root.innerHTML = data.footer_text;
+    quill.root.innerHTML = data.footer_text ? data.footer_text : "";
     update();
 
     // Pengambilan data untuk toggle
@@ -81,7 +82,7 @@ $(document).ready(function() {
         $('#r_table_number').removeAttr('checked');
     }
 
-    if (data.visible_kasir == '1'){
+    if (data.visible_cashier == '1'){
         $('#rp_cashier_name').show();
         $('#r_cashier_name').attr('checked');
     }
@@ -158,9 +159,9 @@ $(document).ready(function() {
         switch(currency) {
             case 'EUR':
             case 'GBP':
-                return `${formattedAmount} ${symbol}`;
+                return `${formattedAmount} ${symbol ? symbol : "Rp"}`;
             default:
-                return `${symbol} ${formattedAmount}`;
+                return `${symbol ? symbol : "Rp"} ${formattedAmount}`;
         }
     }
 
@@ -320,13 +321,32 @@ $(document).on("change", "#r_show_barcode", function() {
 
 // Toggle Show Footer
 $(document).on("change", "#r_show_footer", function() {
+    var cek = 0;
     if (this.checked){
         $('.foot').css('display', 'block');
+        cek = 1;
     }
     else{
         $('.foot').css('display', 'none');
     }
     quill.enable(this.checked);
+    $.ajax({
+        url: '/admin/updatePengaturan',
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': token
+        },
+        data: {
+            'pengaturan_nama': 'visible_footer',
+            'pengaturan_value': cek
+        },
+        success: function(e){
+            
+        },
+        error: function(e){
+            console.log(e);
+        }
+    })
 });
 
 // Input Footer
