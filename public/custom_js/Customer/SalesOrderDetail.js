@@ -476,7 +476,6 @@
         var url ="/admin/insertDO";
         var valid=1;
         var items = [];
-        alert("test");
         $("#modalInsertDO .fillDo").each(function(){
             if($(this).val()==null||$(this).val()=="null"||$(this).val()==""){
                 valid=-1;
