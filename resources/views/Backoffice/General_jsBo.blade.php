@@ -23,6 +23,8 @@
 <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.12.1/dist/JsBarcode.all.min.js"></script>
 <!-- Quill JS -->
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<!-- Toastr JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
 <script>
@@ -40,6 +42,7 @@
         $(id).html(`${text? text : 'Save Changes'}`).attr("disabled", false);
         console.log("success");
     }
+
     function notifikasi(simbol,title,deskripsi) {
         Swal.fire({
             icon: simbol,

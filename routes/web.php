@@ -8,6 +8,7 @@ use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromotionController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\SettingTaxController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
@@ -153,4 +154,11 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/insertSalesOrder', [CustomerController::class, "insertSalesOrder"])->name('insertSalesOrder');
     Route::post('/updateSalesOrder', [CustomerController::class, "updateSalesOrder"])->name('updateSalesOrder');
     Route::post('/deleteSalesOrder', [CustomerController::class, "deleteSalesOrder"])->name('deleteSalesOrder');
+
+    Route::get('/Payment',[SettingTaxController::class,"Payment"]);
+    Route::post('/insertTax',[SettingTaxController::class,"insertTax"])->name('insertTax');
+    Route::post('/deleteTax',[SettingTaxController::class,"deleteTax"])->name('deleteTax');
+    Route::get('/getTax',[SettingTaxController::class,"getTax"])->name('getTax');
+    Route::post('/toggleActiveTax',[SettingTaxController::class,"toggleActiveTax"])->name('toggleActiveTax');
+
 });

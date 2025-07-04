@@ -165,6 +165,9 @@
                                         <li>
                                             <a href="/admin/Receipt" class="tp-link">Receipt</a>
                                         </li>
+                                        <li>
+                                            <a href="/admin/Payment" class="tp-link">Payment</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>

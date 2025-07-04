@@ -23,10 +23,9 @@ $(document).ready(function() {
     $('#rp_name').html(data.company_name ? data.company_name : "PT. -");
     $('#rp_phone_number').html(data.company_nomor ? data.company_nomor : "*Phone Number*"); 
     $('#rp_address').html(data.company_address ? data.company_address : "*Address*");
-    $('#rp_customer_name').html(data.customer_name ? data.customer_name : "");
+    $('#rp_customer_name').html(data.customer_name ? data.customer_name : "Budi")
     $('#rp_footer').html(data.footer_text ? data.footer_text : "");
     $('#rp_logo').attr("src", data.company_logo ? public+data.company_logo : dummyLogo);
-    $('#rp_customer_name').html(data.customer_name ? data.customer_name : "Budi")
 
     // Ukuran font & page preview
     $("p, td, th").css("font-size", data.font_size ? data.font_size + "pt" : "8pt")
