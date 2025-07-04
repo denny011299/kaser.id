@@ -16,7 +16,7 @@ class DeliveryOrder extends Model
         $query = self::where('status', 1);
 
         if (!empty($filter['do_id'])) {
-            $query->where('do_id', $filter['do_id']);
+            $query->where('do_id','=', $filter['do_id']);
         }
         if (!empty($filter['so_id'])) {
             $query->where('so_id', '=',$filter['so_id']);

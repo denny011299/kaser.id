@@ -14,10 +14,11 @@ class StockController extends Controller
 
     function getManageSupplies(Request $req)
     {
-        $data =  (new manageStock())->getManageSupplies([
+        $data =  (new manageStock())->getManage([
             "ms_type" => $req->ms_type,
             "ms_start_date" => $req->ms_start_date,
             "ms_end_date" => $req->ms_end_date,
+            "type" => 1,
             "all" => $req->all
         ]);
         return json_encode($data);
@@ -26,12 +27,41 @@ class StockController extends Controller
     function insertManageSupplies(Request $req)
     {
         $data = $req->all();
-        return (new manageStock())->insertManageSupplies($data);
+        return (new manageStock())->insertManage($data);
     }
     
     function deleteManageSupplies(Request $req)
     {
         $data = $req->all();
-        return (new manageStock())->deleteManageSupplies($data);
+        return (new manageStock())->deleteManage($data);
+    }
+
+    // Product
+    function manageProduct() {
+        return view('Backoffice.Inventory.Manage_Product');
+    }
+
+    function getManageProduct(Request $req)
+    {
+        $data =  (new manageStock())->getManage([
+            "ms_type" => $req->ms_type,
+            "ms_start_date" => $req->ms_start_date,
+            "ms_end_date" => $req->ms_end_date,
+            "all" => $req->all,
+            "type" => 2,
+        ]);
+        return json_encode($data);
+    }
+
+    function insertManageProduct(Request $req)
+    {
+        $data = $req->all();
+        return (new manageStock())->insertManage($data);
+    }
+    
+    function deleteManageProduct(Request $req)
+    {
+        $data = $req->all();
+        return (new manageStock())->deleteManage($data);
     }
 }

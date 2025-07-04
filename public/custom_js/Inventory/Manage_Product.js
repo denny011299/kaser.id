@@ -12,9 +12,11 @@ $(document).on("click",".btn_scan",function(){
     $('#input_qty').val("1");
     $('#input_barcode').trigger("focus");
 });
+
 $(document).on("change","#filter_start_date,#filter_end_date",function(){
     afterInsert();
 });
+
 $(document).on("click",".btn_scan",function(){
     mode= $(this).attr("mode");
     $('#input_barcode').val("");
@@ -25,7 +27,7 @@ $(document).on("click",".btn_scan",function(){
 $(document).on("click",".nav-jenis",function(){
     type= $(this).attr("tipe");
     afterInsert();
-    $('#input_barcode').trigger("focus");
+     $('#input_barcode').trigger("focus");
 });
 
 $('#input_barcode').on('keyup', function(e) {
@@ -56,7 +58,7 @@ $('#input_qty').on('keyup', function(e) {
 function insertData() {
     LoadingButton(this);
     $('.is-invalid').removeClass('is-invalid');
-    var url ="/admin/insertManageSupplies";
+    var url ="/admin/insertManageProduct";
     var valid=1;
 
     $("#modalInsert .fill").each(function(){
@@ -76,7 +78,7 @@ function insertData() {
         ms_type:$('#input-type').val(),//1 = In , 2 = Out
         barcode:$('#input_barcode').val(),
         ms_stock:$('#input_qty').val(),
-        jenis_insert:1,//1 = Product , 2 = supplies
+        jenis_insert:2,//2 = Product , 1 = supplies
          _token:token
     };
 
@@ -106,7 +108,7 @@ function insertData() {
 }
 
 function getIn() {
-    $("#tableSuppliesIn").dataTable({
+    $("#tableProductIn").dataTable({
         dom: 'Bfrtip',
         serverSide: false,
         destroy: true,
@@ -114,11 +116,11 @@ function getIn() {
         deferRender: true,
         processing: true,
         ajax: {
-            url: "/admin/getManageSupplies",
+            url: "/admin/getManageProduct",
             type: "get",
             data:{
                 ms_type:1,
-                "ms_start_date":$('#filter_start_date').val(),
+                 "ms_start_date":$('#filter_start_date').val(),
                 "ms_end_date":$('#filter_end_date').val(),
             },
             dataSrc: function (json) {
@@ -140,8 +142,8 @@ function getIn() {
         initComplete: (settings, json) => {
         },
         columns: [
-            { data: "sup_sku", className: "text-start"},
-            { data: "sup_name", className: "text-start"},
+            { data: "pr_sku", className: "text-start"},
+            { data: "pr_name", className: "text-start"},
             { data: "ms_stock", className: "text-start"},
         ],
         searching: false,
@@ -154,7 +156,7 @@ function getIn() {
             $(row).find('td').addClass('align-middle');
         }
     });
-    let table1 = $("#tableSuppliesIn").DataTable();
+    let table1 = $("#tableProductIn").DataTable();
     table1.one("draw", function () {
         table1.columns.adjust();
     }).ajax.reload();
@@ -162,7 +164,7 @@ function getIn() {
 
 
 function getOut() {
-    $("#tableSuppliesOut").dataTable({
+    $("#tableProductOut").dataTable({
         dom: 'Bfrtip',
         serverSide: false,
         destroy: true,
@@ -170,11 +172,11 @@ function getOut() {
         deferRender: true,
         processing: true,
         ajax: {
-            url: "/admin/getManageSupplies",
+            url: "/admin/getManageProduct",
             type: "get",
             data:{
                 ms_type:2,
-                "ms_start_date":$('#filter_start_date').val(),
+                 "ms_start_date":$('#filter_start_date').val(),
                 "ms_end_date":$('#filter_end_date').val(),
             },
             dataSrc: function (json) {
@@ -196,8 +198,8 @@ function getOut() {
         initComplete: (settings, json) => {
         },
         columns: [
-            { data: "sup_sku", className: "text-start"},
-            { data: "sup_name", className: "text-start"},
+            { data: "pr_sku", className: "text-start"},
+            { data: "pr_name", className: "text-start"},
             { data: "ms_stock", className: "text-start"},
         ],
         searching: false,
@@ -210,14 +212,14 @@ function getOut() {
             $(row).find('td').addClass('align-middle');
         }
     });
-    let table1 = $("#tableSuppliesOut").DataTable();
+    let table1 = $("#tableProductOut").DataTable();
     table1.one("draw", function () {
         table1.columns.adjust();
     }).ajax.reload();
 }
 
 function getAll() {
-    $("#tableSuppliesAll").dataTable({
+    $("#tableProductAll").dataTable({
         dom: 'Bfrtip',
         serverSide: false,
         destroy: true,
@@ -225,7 +227,7 @@ function getAll() {
         deferRender: true,
         processing: true,
         ajax: {
-            url: "/admin/getManageSupplies",
+            url: "/admin/getManageProduct",
             type: "get",
             data:{
                 all:"1",
@@ -233,6 +235,8 @@ function getAll() {
                 "ms_end_date":$('#filter_end_date').val(),
             },
             dataSrc: function (json) {
+                console.log(json);
+                
                 for (var i = 0; i < json.length; i++) {
                     
                     json[i].action=`
@@ -251,8 +255,8 @@ function getAll() {
         initComplete: (settings, json) => {
         },
         columns: [
-            { data: "sup_sku", className: "text-start"},
-            { data: "sup_name", className: "text-start"},
+            { data: "pr_sku", className: "text-start"},
+            { data: "pr_name", className: "text-start"},
             { data: "sup_in", className: "text-center"},
             { data: "sup_out", className: "text-center"},
         ],
@@ -266,7 +270,7 @@ function getAll() {
             $(row).find('td').addClass('align-middle');
         }
     });
-    let table1 = $("#tableSuppliesAll").DataTable();
+    let table1 = $("#tableProductAll").DataTable();
     table1.one("draw", function () {
         table1.columns.adjust();
     }).ajax.reload();

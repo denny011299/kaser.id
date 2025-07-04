@@ -132,7 +132,7 @@
                                             <a href="/admin/manageSupplies" class="tp-link">Manage Supplies</a>
                                         </li>
                                         <li>
-                                            <a href="/admin/manage_product" class="tp-link">Manage Product</a>
+                                            <a href="/admin/manageProduct" class="tp-link">Manage Product</a>
                                         </li>
                                     </ul>
                                 </div>

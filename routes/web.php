@@ -4,6 +4,7 @@ use App\Http\Controllers\AutocompleteController;
 use App\Http\Controllers\CashierController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GeneralController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PromotionController;
@@ -109,6 +110,12 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/updateManageSupplies', [StockController::class, "updateManageSupplies"])->name('updateManageSupplies');
     Route::post('/deleteManageSupplies', [StockController::class, "deleteManageSupplies"])->name('deleteManageSupplies');
     
+    Route::get('/manageProduct',[StockController::class,"manageProduct"]);
+    Route::get('/getManageProduct', [StockController::class, "getManageProduct"])->name('getManageProduct');
+    Route::post('/insertManageProduct', [StockController::class, "insertManageProduct"])->name('insertManageProduct');
+    Route::post('/updateManageProduct', [StockController::class, "updateManageProduct"])->name('updateManageProduct');
+    Route::post('/deleteManageProduct', [StockController::class, "deleteManageProduct"])->name('deleteManageProduct');
+    
     Route::get('/StaffPosition',[StaffController::class,"CategoryStaff"]);
     Route::get('/getCategoryStaff', [StaffController::class, "getCategoryStaff"])->name('getCategoryStaff');
     Route::post('/insertCategoryStaff', [StaffController::class, "insertCategoryStaff"])->name('insertCategoryStaff');
@@ -173,5 +180,6 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/insertDO', [CustomerController::class, "insertDO"])->name('insertDO');
     Route::post('/updateDO', [CustomerController::class, "updateDO"])->name('updateDO');
     Route::post('/deleteDO', [CustomerController::class, "deleteDO"])->name('deleteDO');
+    Route::get('/deliveryOrder/{id}', [PDFController::class, "deliveryOrder"])->name('deliveryOrder');
 
 });

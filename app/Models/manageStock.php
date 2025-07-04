@@ -13,17 +13,21 @@ class manageStock extends Model
     public $timestamps = true;
     public $incrementing = true;
 
-    function getManageSupplies($data = [])
+    function getManage($data = [])
     {
         $data = array_merge([
             "ms_type"=>null,
             "ms_start_date"=>null,
             "ms_end_date"=>null,
             "all"=>null,
+            "type"=>2,//default = product
         ], $data);
 
         $result = self::where('status', '=', 1);
-        if($data["ms_type"]) $result->where('ms_type','=',$data["ms_type"]);
+        if($data["ms_type"])$result->where('ms_type','=',$data["ms_type"]);
+        
+        if($data["type"]==1)$result->whereNotNull('sup_id');
+        else $result->whereNotNull('pr_id');
 
         if($data["ms_start_date"] && $data["ms_end_date"]) {
             $result->whereBetween('created_at', [$data["ms_start_date"], $data["ms_end_date"]]);
@@ -53,12 +57,29 @@ class manageStock extends Model
                     //->whereBetween('created_at', [$data["ms_start_date"] ?? Carbon::now(), $data["ms_end_date"] ?? Carbon::now()])
                     ->sum('ms_stock');
             }
+            else{
+                $sup = Product::find($value->pr_id);
+                if($sup){
+                    $value->pr_name = $sup->pr_name;
+                    $value->pr_unit = $sup->pr_unit;
+                    $value->pr_sku = $sup->pr_sku;
+
+                    $value->sup_in = manageStock::where("pr_id", $value->pr_id)
+                        ->where("ms_type", 1)
+                    // ->whereBetween('created_at', [$data["ms_start_date"] ?? Carbon::now(), $data["ms_end_date"] ?? Carbon::now()])
+                        ->sum('ms_stock');
+                    $value->sup_out = manageStock::where("pr_id", $value->pr_id)
+                        ->where("ms_type", 2)
+                        //->whereBetween('created_at', [$data["ms_start_date"] ?? Carbon::now(), $data["ms_end_date"] ?? Carbon::now()])
+                        ->sum('ms_stock');
+                }
+            }
         }
  
         return $result;
     }
 
-    function insertManageSupplies($data)
+    function insertManage($data)
     {   
         $now = Carbon::now();
         $oneHourAgo = Carbon::now()->subHour();
@@ -76,7 +97,7 @@ class manageStock extends Model
                    $s= $exists->first();
                    $data["sup_id"] = $s->sup_id;
                    $data["ms_id"] = $s->ms_id;
-                   return $this->updateManageSupplies($data);
+                   return $this->updateManage($data);
 
                 }
                 else{
@@ -87,9 +108,24 @@ class manageStock extends Model
             }
         }
         else{
-            $p = Product::where("sup_barcode","=",$data["barcode"])->first();
+            $p = Product::where("pr_barcode","=",$data["barcode"])->first();
             if($p){
-                $data["pr_id"] = $p->pr_id;
+                 $exists = self::where("pr_id", $p->pr_id)
+                    ->where("ms_type", $data["ms_type"])
+                    ->whereBetween('created_at', [$oneHourAgo, $now]);
+                $ext  = $exists->count();
+             
+                if ($ext>0) {
+                  
+                   $s= $exists->first();
+                   $data["pr_id"] = $s->pr_id;
+                   $data["ms_id"] = $s->ms_id;
+                   return $this->updateManage($data);
+
+                }
+                else{
+                    $data["pr_id"] = $p->pr_id;
+                }
             } else {
                 return "Product not found";
             }
@@ -104,7 +140,7 @@ class manageStock extends Model
         return $t->ms_id;   
     }
 
-    function updateManageSupplies($data)
+    function updateManage($data)
     {
         $t = self::find($data["ms_id"]);    
         $t->ms_type = $data["ms_type"]; 
@@ -115,7 +151,7 @@ class manageStock extends Model
         return $t->ms_id;   
     }
 
-    function deleteManageSupplies($data)
+    function deleteManage($data)
     {
         $t = self::find($data["ms_id"]);    
         $t->status = 0;
