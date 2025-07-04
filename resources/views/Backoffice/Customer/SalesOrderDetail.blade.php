@@ -110,6 +110,12 @@
                         </a>
                     </li>
                     <li class="nav-item menu" role="presentation"  menu="2">
+                        <a class="nav-link " data-bs-toggle="tab" href="#delivery_notes" role="tab" aria-selected="true">
+                            <span class="d-block d-sm-none"><i class="mdi mdi-email-outline"></i></span>
+                            <span class="d-none d-sm-block">Delivery Notes</span>
+                        </a>
+                    </li>
+                    <li class="nav-item menu" role="presentation"  menu="2">
                         <a class="nav-link " data-bs-toggle="tab" href="#messages" role="tab" aria-selected="true">
                             <span class="d-block d-sm-none"><i class="mdi mdi-email-outline"></i></span>
                             <span class="d-none d-sm-block">Invoice</span>
@@ -188,6 +194,28 @@
                                 <p class="mt-2" id="text_sign_by">{{$dataPo["so_sign_by"]}}</p>
                             </div>
                         </div>
+                    </div>
+                    <div class="tab-pane" id="delivery_notes" role="tabpanel">
+                         <div class="row mb-2">
+                            <div class="col-6"></div>
+                            <div class="col-6 text-end">
+                                @if($dataPo["spo_status"]!="Done")
+                                    <button class="btn btn-success  btn-add-delivery" style="border-radius:100px">+ Add Delivery Note</button>
+                                @endif
+                            </div>
+                        </div>
+                         <table class="table" id="tableDO">
+                            <thead>
+                                <tr>
+                                    <td class="text-center">Date</td>
+                                    <td>DO No.</td>
+                                    <td class="text-end">Total Items</td>
+                                    <td class="text-center">Action</td>
+                                </tr>
+                            </thead>
+                            <tbody id="">
+                            </tbody>
+                        </table>
                     </div>
                     <div class="tab-pane" id="messages" role="tabpanel">
                          <div class="row mb-2">
@@ -281,13 +309,13 @@
                 <div class="modal-body">
                   <div class="container-fluid">
                        <label for="">Invoice No.*</label>
-                       <select name="" id="spoi_id" class="fillPayment form-select"></select>
+                       <select name="" id="soi_id" class="fillPayment form-select"></select>
 
                        <label class="mt-2" for="">Payment Date*</label>
-                       <input type="date" class="fillPayment form-control" id="spop_date">
+                       <input type="date" class="fillPayment form-control" id="sop_date">
 
                        <label for="">Payment Method*</label>
-                       <select name="" id="spop_type" class="fillPayment form-select">
+                       <select name="" id="sop_type" class="fillPayment form-select">
                             <option value="Cash">Cash</option>
                             <option value="Transfer">Transfer</option>
                        </select>
@@ -295,7 +323,7 @@
                        <label class="mt-2" for="">Invoice Total*</label>
                         <div class="input-group mb-3 fix-nominal">
                             <span class="input-group-text">Rp.</span>
-                            <input type="text" class="form-control  nominal_only fillPayment" id="spop_total" placeholder="25.000">
+                            <input type="text" class="form-control  nominal_only fillPayment" id="sop_total" placeholder="25.000">
                         </div>
 
                          <div class="col-2">
@@ -315,6 +343,46 @@
             </div><!-- /.modal-content -->
         </div>
     </div>
+    
+    <div class="modal fade bs-example-modal-center show" id="modalInsertDO" tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" id="modalInsert">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Delivery Order</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="mt-2" for="">Delivery Date*</label>
+                                <input type="date" class="fillDo form-control" id="do_date">
+                            </div>
+                            <div class="col-4">
+                                <label class="mt-2" for="">Sender Name*</label>
+                                <input type="text" class="fillDo form-control" id="do_sender_name">
+                            </div>
+                            <div class="col-4">
+                                <label class="mt-2" for="">Receiver Name*</label>
+                                <input type="text" class="fillDo form-control" id="do_receiver_name">
+                            </div>
+                        </div>
+                        <label class="mt-2" for="">Notes</label>
+                       <textarea name="" id="do_note" cols="30" rows="5"  class="form-control"></textarea>
+                       <label class="mt-2" for="">List Product*</label>
+                       <div class="row row-product">
+                            
+                       </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-save-do">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
 
     <div class="modal fade bs-example-modal-center show" id="modalViewPayment"    tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered modal-lg" >
@@ -329,29 +397,29 @@
                         <div class="row">
                             <div class="col-6">
                                 <label class="fw-bold mb-2">Invoice No.*</label><br>
-                                <label id="view_spoi_nomer">-</label>
+                                <label id="view_soi_nomer">-</label>
                             </div>
                             <div class="col-6">
                                 <label class="fw-bold mb-2" for="">Payment Date*</label><br>
-                                <label id="view_spop_date">-</label>
+                                <label id="view_sop_date">-</label>
                             </div>
                         </div>
                        
                         <div class="row mt-3">
                             <div class="col-6">
                                 <label  class="fw-bold mb-2">Payment Method*</label><br>
-                                <label id="view_spop_type">-</label>
+                                <label id="view_sop_type">-</label>
                             </div>
                             <div class="col-6">
                                 <label class="fw-bold mb-2">Invoice Total*</label><br>
-                                <label id="view_spop_total">-</label>
+                                <label id="view_sop_total">-</label>
                             </div>
                         </div>
                        
                         <div class="row mt-3">
                             <div class="col-6">
                                 <label class="fw-bold mb-2">Proof Of Transfer</label><br>
-                                <img src="" id="view_spop_img" alt="" style="width: 150px">
+                                <img src="" id="view_sop_img" alt="" style="width: 150px">
                             </div>
                         </div>
 
@@ -370,6 +438,8 @@
     <script>
         var so_id = "{{ $so_id }}";    
         var dataPo = @json($dataPo);    
+        console.log(dataPo);
+        
         var public = "{{ asset('') }}";    
         var uploadImageUrl = "{{ asset('assets/image-cards.png') }}";
     </script>

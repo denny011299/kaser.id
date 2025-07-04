@@ -12,6 +12,7 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Middleware\checkSession;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[CashierController::class,"index"]);
@@ -134,6 +135,12 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/updatePaymentPo', [SupplierController::class, "updatePaymentPo"])->name('updatePaymentPo');
     Route::post('/deletePaymentPo', [SupplierController::class, "deletePaymentPo"])->name('deletePaymentPo');
     
+    
+    Route::get('/getPaymentSo', [CustomerController::class, "getPaymentSo"])->name('getPaymentSo');
+    Route::post('/insertPaymentSo', [CustomerController::class, "insertPaymentSo"])->name('insertPaymentSo');
+    Route::post('/updatePaymentSo', [CustomerController::class, "updatePaymentSo"])->name('updatePaymentSo');
+    Route::post('/deletePaymentSo', [CustomerController::class, "deletePaymentSo"])->name('deletePaymentSo');
+    
     Route::get('/getCustomerPrice', [CustomerController::class, "getCustomerPrice"])->name('getCustomerPrice');
     Route::post('/insertCustomerPrice', [CustomerController::class, "insertCustomerPrice"])->name('insertCustomerPrice');
     Route::post('/updateCustomerPrice', [CustomerController::class, "updateCustomerPrice"])->name('updateCustomerPrice');
@@ -153,4 +160,10 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/insertSalesOrder', [CustomerController::class, "insertSalesOrder"])->name('insertSalesOrder');
     Route::post('/updateSalesOrder', [CustomerController::class, "updateSalesOrder"])->name('updateSalesOrder');
     Route::post('/deleteSalesOrder', [CustomerController::class, "deleteSalesOrder"])->name('deleteSalesOrder');
+
+    Route::get('/getDO', [CustomerController::class, "getDO"])->name('getDO');
+    Route::post('/insertDO', [CustomerController::class, "insertDO"])->name('insertDO');
+    Route::post('/updateDO', [CustomerController::class, "updateDO"])->name('updateDO');
+    Route::post('/deleteDO', [CustomerController::class, "deleteDO"])->name('deleteDO');
+
 });

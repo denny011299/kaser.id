@@ -74,10 +74,4 @@ class SalesOrderDetailInvoice extends Model
         $t->save();
     }
 
-    function generateInvNumber()
-    {
-        $latest = self::max('soi_id');
-        $latest = is_null($latest) ? 1 : $latest + 1;
-        return "INV" . str_pad($latest, 5, "0", STR_PAD_LEFT);
-    }
 }
