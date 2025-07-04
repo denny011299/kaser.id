@@ -41,7 +41,7 @@
             </div>
         </div>
         <div class="row px-3">
-            <div class="col-5">
+            <div class="col-lg-6 col-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="row p-2">
@@ -62,7 +62,7 @@
                     <div class="card-body">
                         <h5 class="fs-15 fw-semibold m-0 p-2">Payment Method</h5>
                         <div class="row px-2 pt-2">
-                            <div class="col-6">
+                            <div class="col-lg-6 col-12">
                                 <div class="card">
                                     <div class="card-body p-3">
                                         <div class="d-flex">
@@ -74,7 +74,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-lg-6 col-12">
                                 <div class="card">
                                     <div class="card-body p-3">
                                         <div class="d-flex">
@@ -88,7 +88,7 @@
                             </div>
                         </div>
                         <div class="row px-2">
-                            <div class="col-6">
+                            <div class="col-lg-6 col-12">
                                 <div class="card">
                                     <div class="card-body p-3">
                                         <div class="d-flex">
@@ -100,7 +100,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-lg-6 col-12">
                                 <div class="card">
                                     <div class="card-body p-3">
                                         <div class="d-flex">
@@ -119,7 +119,7 @@
                     <div class="card-body">
                         <h5 class="fs-15 fw-semibold m-0 p-2">Order Method</h5>
                         <div class="row px-2 pt-2">
-                            <div class="col-6">
+                            <div class="col-lg-6 col-12">
                                 <div class="card">
                                     <div class="card-body p-3">
                                         <div class="d-flex">
@@ -131,7 +131,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-lg-6 col-12">
                                 <div class="card">
                                     <div class="card-body p-3">
                                         <div class="d-flex">
@@ -145,7 +145,7 @@
                             </div>
                         </div>
                         <div class="row px-2">
-                            <div class="col-6">
+                            <div class="col-lg-6 col-12">
                                 <div class="card">
                                     <div class="card-body p-3">
                                         <div class="d-flex">
@@ -157,7 +157,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-lg-6 col-12">
                                 <div class="card">
                                     <div class="card-body p-3">
                                         <div class="d-flex">
@@ -173,7 +173,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card col-6 offset-1" style="width: fit-content; height: fit-content">
+            <div class="card col-lg-6 col-12 offset-1" style="width: fit-content; height: fit-content">
                 <div class="card-body">
                     <label for="">Preview</label>
                     <div class="container px-4 py-2">

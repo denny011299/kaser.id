@@ -34,7 +34,7 @@
             </div>
         </div>
         <div class="row px-3">
-            <div class="card col-5">
+            <div class="card col-lg-6 col-12">
                 <div class="card-body p-4">
                     <div class="row">
                         <div class="col-4">
@@ -128,7 +128,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card col-6 offset-1" style="width: fit-content; height: fit-content">
+            <div class="card col-lg-6 col-12 offset-1" style="width: fit-content; height: fit-content">
                 <div class="card-body">
                     <label for="">Preview</label>
                     <div class="container px-4 py-2">
