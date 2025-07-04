@@ -21,8 +21,14 @@ class SalesOrderDetail extends Model
         $q = self::where("status", $data["status"]);
 
         if ($data["so_id"]) $q->where("so_id", $data["so_id"]);
+        
+        $result =  $q->orderBy("created_at", "asc")->get();
 
-        return $q->orderBy("created_at", "asc")->get();
+        foreach ($result as $key => $value) {
+            $p = Product::find($value->pr_id);
+            $value->sod_unit = Product_unit::find($p->pu_id)->pu_short_name;
+        }
+        return $result;
     }
 
     function insertDetail($data)

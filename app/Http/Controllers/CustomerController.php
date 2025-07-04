@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\CustomerPrice;
+use App\Models\DeliveryOrder;
+use App\Models\DeliveryOrderDetail;
 use App\Models\pengaturan;
 use App\Models\SalesOrder;
 use App\Models\SalesOrderDetail;
 use App\Models\SalesOrderDetailInvoice;
+use App\Models\SalesOrderDetailPayment;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -144,6 +147,44 @@ class CustomerController extends Controller
         return (new salesOrder())->deleteSalesOrder($data);
     }
 
+    //Invoice PO
+    function getPaymentSo(Request $req)
+    {
+        $list = null;
+        if($req->spo_id){
+            $list = SalesOrderDetailPayment::where('so_id','=',$req->so_id)
+            ->where('soi_status','!=','Deleted')->select("soi_id")->get();
+        }
+        $data =  (new SalesOrderDetailPayment())->getPayment([
+            "soi_id" => $req->soi_id,
+            "sop_id" => $req->sop_id,
+            "list_soi" => $list
+        ]);
+        return json_encode($data);
+    }
+
+    function insertPaymentSo(Request $req)
+    {
+        $data = $req->all();
+        if(isset($req->main)&&$req->main!="undefined")$data["sop_img"] = $this->insertFile($req->main, "payment");
+        return (new SalesOrderDetailPayment())->insertPayment($data);
+        
+    }
+
+    function updatePaymentSo(Request $req)
+    {
+        $data = $req->all();
+        if(isset($req->main)&&$req->main!="undefined")$data["sop_img"] = $this->insertFile($req->main, "payment");
+        return (new SalesOrderDetailPayment())->updatePayment($data);
+    }
+
+    function deletePaymentSo(Request $req)
+    {
+        $data = $req->all();
+        return (new SalesOrderDetailPayment())->deletePayment($data);
+    }
+
+
      //Invoice PO
     function getSoInvoice(Request $req)
     {
@@ -170,9 +211,55 @@ class CustomerController extends Controller
     function deleteSoInvoice(Request $req)
     {
         $data = $req->all();
-        return (new SupplierPurchaseOrderInvoice())->deleteInvoice($data);
+        return (new SalesOrderDetailInvoice())->deleteInvoice($data);
     }
 
+      //DO
+    function getDo(Request $req)
+    {
+        $data =  (new DeliveryOrder())->getDeliveryOrders([
+            "so_id" => $req->so_id,
+        ]);
+        return json_encode($data);
+    }
+
+    function insertDO(Request $req)
+    {
+        $data = $req->all();
+        $do_id = (new DeliveryOrder())->insertDo($data);
+        foreach (json_decode($data["do_item"]) as $key => $value) {
+            $value->do_id = $do_id;
+            (new DeliveryOrderDetail())->insertDeliveryOrderDetail((array)$value);
+        }
+    }
+
+    function updateDo(Request $req)
+    {
+        $list_id = [];
+        $data = $req->all();
+        (new DeliveryOrder())->updateDo($data);
+        
+         foreach (json_decode($data["do_item"]) as $key => $value) {
+            $value->do_id = $req->do_id;
+           
+            if($value->dod_id){
+                $dod_id = (new DeliveryOrderDetail())->updateDeliveryOrderDetail((array)$value);
+            }
+            else{
+                $dod_id = (new DeliveryOrderDetail())->insertDeliveryOrderDetail((array)$value);
+            }
+            array_push($list_id,$dod_id);
+        }
+        DeliveryOrderDetail::where('do_id','=',$req->do_id)->whereNotIn('dod_id',$list_id)->delete();
+    }
+
+    function deleteDo(Request $req)
+    {
+        $data = $req->all();
+        return (new DeliveryOrder())->deleteDo($data);
+    }
+
+    
 
         //lain lain
     public function insertFile($file, $type)
