@@ -33,6 +33,23 @@ $(document).ready(function() {
 
     getTax();
 
+    // Preview Receipt
+    // Pengambilan data untuk toggle
+    if (data.visible_footer == '1') $('.foot').show();
+    else $('.foot').hide();
+
+    if (data.visible_customer == '1') $('#rp_customer_name').show();
+    else $('#rp_customer_name').hide();
+
+    if (data.visible_table == '1') $('#rp_table_number').show();
+    else $('#rp_table_number').hide();
+
+    if (data.visible_cashier == '1') $('#rp_cashier_name').show();
+    else $('#rp_cashier_name').hide();
+
+    if (data.visible_barcode == '1') $('.barcode').show();
+    else $('.barcode').hide();
+
     // Toggle payment method
     if (!data.payment_qris) $('#pm_qris').prop('checked', false).trigger('change');
     else if (data.payment_qris == '1') $('#pm_qris').prop('checked', true);

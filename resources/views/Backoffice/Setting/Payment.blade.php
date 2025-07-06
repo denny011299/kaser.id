@@ -200,7 +200,7 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="col-6 text-left">
+                                <div class="col-6 text-left d-flex justify-content-end">
                                     <table>
                                         <tr id="rp_table_number">
                                             <td>Table</td>
@@ -227,14 +227,14 @@
                                     <tr class="menu">
                                         <td style="text-align: left">Nasi Goreng</td>
                                         <td>1</td>
-                                        <td style="text-align: right">Rp 20.000</td>
-                                        <td style="text-align: right">Rp 20.000</td>
+                                        <td style="text-align: right" data-price>Rp 20.000</td>
+                                        <td style="text-align: right" data-price>Rp 20.000</td>
                                     </tr>
                                     <tr class="menu">
                                         <td style="text-align: left">Mie Goreng</td>
                                         <td>2</td>
-                                        <td style="text-align: right">Rp 22.000</td>
-                                        <td style="text-align: right">Rp 44.000</td>
+                                        <td style="text-align: right" data-price>Rp 22.000</td>
+                                        <td style="text-align: right" data-price>Rp 44.000</td>
                                     </tr>
                                 </table>
                             </div>
@@ -242,7 +242,7 @@
                             <div class="total">
                                 <div class="d-flex justify-content-between">
                                     <p>TOTAL AMOUNT</p>
-                                    <p id="total">Rp 64.000</p>
+                                    <p id="total" data-price>Rp 64.000</p>
                                 </div>
                                 <div class="" id="preview_tax">
                                     
@@ -250,18 +250,18 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <p class="fw-bold">GRAND TOTAL</p>
-                                    <p class="fw-bold" id="grand">Rp 70.400</p>
+                                    <p class="fw-bold" id="grand" data-price>Rp 70.400</p>
                                 </div>
                             </div>
                             <hr>
                             <div class="payment">
                                 <div class="d-flex justify-content-between">
                                     <p>CASH</p>
-                                    <p>Rp 100.000</p>
+                                    <p data-price>Rp 100.000</p>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <p>CHANGE</p>
-                                    <p id="change">Rp 29.600</p>
+                                    <p id="change" data-price>Rp 29.600</p>
                                 </div>
                             </div>
                             <hr>

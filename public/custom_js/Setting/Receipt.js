@@ -1,3 +1,6 @@
+var list_tax = [];
+var simbolUang = "";
+
 const toolbarOptions = [
     ['bold', 'italic', 'underline', 'strike'],
     [{ 'size': ['small', false, 'large', 'huge'] }],
@@ -51,16 +54,19 @@ $(document).ready(function() {
     quill.root.innerHTML = data.footer_text ? data.footer_text : "";
     update();
 
+    // Tax Preview
+    getTax();
+
     // Pengambilan data untuk toggle
     if (data.visible_footer == '1'){
         $('#r_show_footer').attr('checked');
         quill.enable(true);
-        $('#foot').show();
+        $('.foot').show();
     }
     else{
         $('#r_show_footer').removeAttr('checked');
         quill.enable(false);
-        $('#foot').hide();
+        $('.foot').hide();
     }
 
     if (data.visible_customer == '1'){
@@ -131,6 +137,7 @@ $(document).ready(function() {
     function formatCurrency(amount, currency, symbol) {
         // Konversi ke number
         const numberAmount = parseFloat(amount);
+        simbolUang = symbol;
         
         // Format number dengan locale berbeda
         let formattedAmount;
@@ -192,6 +199,68 @@ quill.on('selection-change', () => {
 // Update Quill
 function update() {
     $('#rp_footer').html(quill.root.innerHTML)
+}
+
+// Update Tax
+function refreshTax() {
+    $('#tax-container').html("");
+    $('#preview_tax').html("");
+    var total = convertToAngka($('#total').html());
+    var grandTotal = total;
+    list_tax.forEach((item,index) => {
+        $('#tax-container').append(`
+            <div class="col-lg-6 col-12">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="d-flex">
+                            <div class="col-7">${item.tx_name}&nbsp;-&nbsp;${item.tx_percent}%</div>
+                            <div class="form-check form-switch text-end col-2">
+                                <input class="form-check-input activeTax" type="checkbox" role="switch" index="${index}" ${item.status==2?"checked":""}>
+                            </div>
+                            <div class="col-3 justify-content-end pe-3" style="margin-top: -3px">
+                                <span class="mdi mdi-close-circle-outline btn_delete" index="${index}" style="font-size: 14pt"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        `)
+
+        if(item.status==2){
+            var temp = total* item.tx_percent/100;
+            console.log(total);
+            
+            $('#preview_tax').append(`
+                <div class="d-flex  justify-content-between">
+                    <p>${item.tx_name} ${item.tx_percent}%</p>
+                    <p>${formatRupiah(temp,"Rp ")}</p>
+                </div>
+            `)
+            $('#preview_tax').css("font-size", data.font_size ? data.font_size + "pt" : "14.4pt")
+            grandTotal += temp;
+        }
+    });
+    $('#grand').html(formatRupiah(grandTotal,"Rp "));
+    $('#change').html(formatRupiah((100000-grandTotal),"Rp "))
+}
+
+// Ambil data Tax
+function getTax() {
+    $.ajax({
+        url: '/admin/getTax',
+        method: 'get',
+        headers: {
+            'X-CSRF-TOKEN': token
+        },
+        success: function(e){
+            list_tax = JSON.parse(e);
+            refreshTax();
+            console.log(e);
+        },
+        error: function(e){
+            console.log(e);
+        }
+    })
 }
 
 // Toggle customer name

@@ -155,7 +155,7 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="col-6 text-left">
+                                <div class="col-6 text-left d-flex justify-content-end">
                                     <table>
                                         <tr id="rp_table_number">
                                             <td>Table</td>
@@ -197,15 +197,15 @@
                             <div class="total">
                                 <div class="d-flex justify-content-between">
                                     <p>TOTAL AMOUNT</p>
-                                    <p data-price>Rp 64.000</p>
+                                    <p id="total" data-price>Rp 64.000</p>
                                 </div>
-                                <div class="d-flex justify-content-between">
-                                    <p>TAX 10%</p>
-                                    <p data-price>Rp 6.400</p>
+                                <div class="" id="preview_tax">
+                                    
+                                    
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <p class="fw-bold">GRAND TOTAL</p>
-                                    <p data-price class="fw-bold">Rp 70.400</p>
+                                    <p class="fw-bold" id="grand" data-price>Rp 70.400</p>
                                 </div>
                             </div>
                             <hr>
@@ -216,7 +216,7 @@
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <p>CHANGE</p>
-                                    <p data-price>Rp 29.600</p>
+                                    <p id="change" data-price>Rp 29.600</p>
                                 </div>
                             </div>
                             <hr>
