@@ -17,6 +17,7 @@ class SupplierPurchaseOrderInvoice extends Model
             "spoi_nomer" => null,
             "spo_id" => null,
             "spoi_id" => null,
+            "list_spo" => null,
         ], $data);
 
         $result = self::where('spoi_status', '!=', "Deleted");
@@ -29,6 +30,9 @@ class SupplierPurchaseOrderInvoice extends Model
         }
         if ($data["spoi_id"]) {
             $result->where('spoi_id', '=', $data["spoi_id"]);
+        }
+        if ($data["list_spo"]) {
+            $result->whereIn('spo_id', $data["list_spo"]);
         }
         
         $result->orderBy('created_at', 'asc');

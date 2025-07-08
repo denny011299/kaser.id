@@ -98,4 +98,10 @@ class Product extends Model
         } while (self::where('pr_barcode', $barcode)->exists());
         return $barcode;
     }
+    function recalculateStock($id) {
+        $p = self::find($id);
+        $count = product_variasi::where('status','=',1)->where('pr_id','=',$id)->sum("pvs_stok");
+        $p->pr_stock = $count;
+        $p->save();
+    }
 }

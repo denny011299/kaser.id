@@ -111,7 +111,7 @@
                     <li class="nav-item menu" role="presentation" menu="3">
                         <a class="nav-link" data-bs-toggle="tab" href="#tab_cashbon" role="tab" aria-selected="true">
                             <span class="d-block d-sm-none"><i class="mdi mdi-email-outline"></i></span>
-                            <span class="d-none d-sm-block">Cashbon</span>
+                            <span class="d-none d-sm-block">Cash Advance</span>
                         </a>
                     </li>
                     <li class="nav-item menu" role="presentation" menu="4">
@@ -160,6 +160,12 @@
                         </table>
                     </div>
                     <div class="tab-pane" id="tab_cashbon" role="tabpanel">
+                        <div class="row mb-2">
+                            <div class="col-6"></div>
+                            <div class="col-6 text-end">
+                                <button class="btn btn-success  btn-add-kasbon" style="border-radius:100px">+ Add Cash Advance</button>
+                            </div>
+                        </div>
                        <table class="table" id="tableCashbon">
                             <thead>
                                 <tr>
@@ -210,6 +216,99 @@
         </div>
     </div>
 
+      {{-- Modal Insert--}}
+    <div class="modal fade bs-example-modal-center show" id="modalInsertKasbon"    tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" id="modalInsert">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cash Advance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-6">
+                                <label for="">Date*</label>
+                                <input type="date" class="form-control fill" id="ks_date" >
+                            </div>
+                            <div class="col-6">
+                                <label for="">Amount*</label>
+                                <input type="text" class="form-control fill nominal_only" id="ks_jumlah" placeholder="Rp.xxx.xxx">
+                            </div>
+                        </div>
+                       <label for="" class="mt-2">Reason*</label>
+                       <textarea name="" id="ks_tujuan" class="form-control" cols="30" rows="5"></textarea>
+                        
+                      
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" st="3" class="btn btn-danger btn-acc btn-save-dec">Decline</button>
+                    <button type="button" st="2" class="btn btn-success btn-acc btn-save-acc">Accept</button>
+                    <button type="button" class="btn btn-primary btn-save-kasbon">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+    
+    <div class="modal fade bs-example-modal-center show" id="modalViewKasbon"    tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" id="modalInsert">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">View Cash Advance</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="fw-bold" for="">Date*</label>
+                                <h6 id="view_ks_date" ></h6>
+                            </div>
+                            <div class="col-6">
+                                <labe class="fw-bold"l for="">Amount*</label>
+                                <h6 id="view_ks_jumlah" ></h6>
+                            </div>
+                        </div>
+                       <label class="fw-bold mt-3" for="" class="mt-2">Reason*</label>
+                       <h6 id="view_ks_tujuan" ></h6>
+                       <label class="fw-bold mt-3" for="" class="mt-2">Reason for Rejection*</label>
+                       <h6 id="view_ks_notes" ></h6>
+                        
+                      
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-center show" id="modalReason"    tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-lg" id="modalInsert">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reason for Rejection</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                      <label for="" class="mt-2">Reason for Rejection*</label>
+                       <textarea name="" id="ks_notes" class="form-control" cols="30" rows="5"></textarea>
+                      
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-confirm-reject">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
 @endsection
 
 @section('Custom_js')

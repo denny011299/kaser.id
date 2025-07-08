@@ -134,6 +134,13 @@
                                         <li>
                                             <a href="/admin/manageProduct" class="tp-link">Manage Product</a>
                                         </li>
+                                        <li>
+                                            <a href="/admin/StockOpname" class="tp-link">Stock Opname Product</a>
+                                            
+                                        </li>
+                                        <li>
+                                           <a href="/admin/StockOpnameSupply" class="tp-link">Stock Opname Supplies</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>

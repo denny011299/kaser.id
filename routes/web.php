@@ -15,6 +15,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Middleware\checkSession;
 use App\Models\Customer;
+use App\Models\StockOpname;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/',[CashierController::class,"index"]);
@@ -182,4 +183,20 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/deleteDO', [CustomerController::class, "deleteDO"])->name('deleteDO');
     Route::get('/deliveryOrder/{id}', [PDFController::class, "deliveryOrder"])->name('deliveryOrder');
 
+    Route::get('/StockOpnameSupply',[StockController::class,"StockOpnameSupply"]);
+    Route::get('/StockOpname',[StockController::class,"StockOpname"]);
+    Route::get('/CreateStockOpname/{type}',[StockController::class,"CreateStockOpname"]);
+    Route::get('/getStockOpname', [StockController::class, "getStockOpname"])->name('getStockOpname');
+    Route::get('/viewStockOpname/{id}/{type}', [StockController::class, "viewStockOpname"])->name('viewStockOpname');
+    Route::get('/getProductStockname', [StockController::class, "getProductStockname"])->name('getProductStockname');
+    Route::post('/insertStockOpname', [StockController::class, "insertStockOpname"])->name('insertStockOpname');
+    Route::post('/updateStockOpname', [StockController::class, "updateStockOpname"])->name('updateStockOpname');
+    Route::post('/deleteStockOpname', [StockController::class, "deleteStockOpname"])->name('deleteStockOpname');
+    Route::get('/StockOpnameDetail/{id}', [PDFController::class, "deliveryOrder"])->name('deliveryOrder');
+
+    Route::get('/getKasbon', [StaffController::class, "getKasbon"])->name('getKasbon');
+    Route::post('/ActionKasbon', [StaffController::class, "ActionKasbon"])->name('ActionKasbon');
+    Route::post('/insertKasbon', [StaffController::class, "insertKasbon"])->name('insertKasbon');
+    Route::post('/updateKasbon', [StaffController::class, "updateKasbon"])->name('updateKasbon');
+    Route::post('/deleteKasbon', [StaffController::class, "deleteKasbon"])->name('deleteKasbon');
 });
