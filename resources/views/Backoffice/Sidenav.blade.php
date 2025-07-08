@@ -155,6 +155,20 @@
                                 </div>
                             </li>
                             <li>
+                                <a href="#sidebarCoa" data-bs-toggle="collapse">
+                                    <span class="mdi mdi-chart-box-plus-outline me-1" style="font-size: 16pt"></span>
+                                    <span> Chart of Accounts </span>
+                                    <span class="menu-arrow"></span>
+                                </a>
+                                <div class="collapse" id="sidebarCoa">
+                                    <ul class="nav-second-level">
+                                        <li>
+                                            <a href="/admin/Coa" class="tp-link">COA</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
                                 <a href="#sidebarSetting" data-bs-toggle="collapse">
                                     <span class="mdi mdi-cog me-1" style="font-size: 16pt"></span>
                                     <span> Setting </span>

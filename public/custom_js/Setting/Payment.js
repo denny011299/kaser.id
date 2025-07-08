@@ -1,7 +1,9 @@
 var list_tax = [];
 var idx_delete = 0;
+var declare;
 
 $(document).ready(function() {
+    declare = 0;
     // Receipt Preview
     $('#rp_name').html(data.company_name ? data.company_name : "PT. -");
     $('#rp_phone_number').html(data.company_nomor ? data.company_nomor : "*Phone Number*"); 
@@ -126,7 +128,7 @@ function refreshTax() {
                     <p>${formatRupiah(temp,"Rp ")}</p>
                 </div>
             `)
-            $('#preview_tax').css("font-size", data.font_size ? data.font_size + "pt" : "14.4pt")
+            $('#preview_tax').css("font-size", data.font_size ? data.font_size + "pt" : "14.4 pt")
             grandTotal += temp;
         }
     });
@@ -257,7 +259,9 @@ $(document).on("change", "#pm_qris", function() {
             'pengaturan_value': cek
         },
         success: function(e){
-            toastr.success("Berhasil mengubah metode bayar!", "Sukses");
+            if (declare > 0){
+                toastr.success("Berhasil mengubah metode bayar!", "Sukses");
+            }
         },
         error: function(e){
             console.log(e);
@@ -286,7 +290,9 @@ $(document).on("change", "#pm_card", function() {
             'pengaturan_value': cek
         },
         success: function(e){
-            toastr.success("Berhasil mengubah metode bayar!", "Sukses");
+            if (declare > 0){
+                toastr.success("Berhasil mengubah metode bayar!", "Sukses");
+            }
         },
         error: function(e){
             console.log(e);
@@ -315,7 +321,9 @@ $(document).on("change", "#pm_transfer", function() {
             'pengaturan_value': cek
         },
         success: function(e){
-            toastr.success("Berhasil mengubah metode bayar!", "Sukses");
+            if (declare > 0){
+                toastr.success("Berhasil mengubah metode bayar!", "Sukses");
+            }
         },
         error: function(e){
             console.log(e);
@@ -344,7 +352,9 @@ $(document).on("change", "#pm_cash", function() {
             'pengaturan_value': cek
         },
         success: function(e){
-            toastr.success("Berhasil mengubah metode bayar!", "Sukses");
+            if (declare > 0){
+                toastr.success("Berhasil mengubah metode bayar!", "Sukses");
+            }
         },
         error: function(e){
             console.log(e);
@@ -373,7 +383,10 @@ $(document).on("change", "#om_online", function() {
             'pengaturan_value': cek
         },
         success: function(e){
-            toastr.success("Berhasil mengubah metode order!", "Sukses");
+            if (declare > 0){
+                toastr.success("Berhasil mengubah metode order!", "Sukses");
+            }
+            
         },
         error: function(e){
             console.log(e);
@@ -402,7 +415,10 @@ $(document).on("change", "#om_dine_in", function() {
             'pengaturan_value': cek
         },
         success: function(e){
-            toastr.success("Berhasil mengubah metode order!", "Sukses");
+            if (declare > 0){
+                toastr.success("Berhasil mengubah metode order!", "Sukses");
+            }
+            
         },
         error: function(e){
             console.log(e);
@@ -431,7 +447,9 @@ $(document).on("change", "#om_unpaid_bill", function() {
             'pengaturan_value': cek
         },
         success: function(e){
-            toastr.success("Berhasil mengubah metode order!", "Sukses");
+            if (declare > 0){
+                toastr.success("Berhasil mengubah metode order!", "Sukses");
+            }
         },
         error: function(e){
             console.log(e);
@@ -460,7 +478,11 @@ $(document).on("change", "#om_take_away", function() {
             'pengaturan_value': cek
         },
         success: function(e){
-            toastr.success("Berhasil mengubah metode order!", "Sukses");
+            if (declare > 0){
+                toastr.success("Berhasil mengubah metode order!", "Sukses");
+            } else{
+                declare++;
+            }
         },
         error: function(e){
             console.log(e);
