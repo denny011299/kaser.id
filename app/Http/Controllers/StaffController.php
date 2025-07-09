@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CategoryStaff;
+use App\Models\kasbon;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 
@@ -78,6 +79,40 @@ class StaffController extends Controller
     {
         $data = $req->all();
         return (new Staff())->deleteStaff($data);
+    }
+
+    //staff kasbon
+    function getKasbon(Request $req)
+    {
+        $data =  (new kasbon())->getKasbon([
+            "st_id"=>$req->st_id,
+            "ks_id"=>$req->ks_id
+        ]);
+        return json_encode($data);
+    }
+
+    function insertKasbon(Request $req)
+    {
+        $data = $req->all();
+        return (new kasbon())->insertKasbon($data);
+    }
+
+
+    function updateKasbon(Request $req)
+    {
+        $data = $req->all();
+        (new kasbon())->updateKasbon($data);
+    }
+
+    function deleteKasbon(Request $req)
+    {
+        $data = $req->all();
+        return (new kasbon())->deleteKasbon($data);
+    }
+    function ActionKasbon(Request $req)
+    {
+        $data = $req->all();
+        return (new kasbon())->ActionKasbon($data);
     }
 
     // lain-lain

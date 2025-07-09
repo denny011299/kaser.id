@@ -271,8 +271,8 @@
             type=2;
         }
         else type=1;
-        console.log($('#sp_id').val());
-        
+        cart = [];
+        refreshList();
         if($('#sp_id').val()==null){
            reset();
         }

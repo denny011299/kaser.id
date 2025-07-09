@@ -2,21 +2,15 @@ var mode=1;//1 = auto scan, 2 = manual input
 var type= 1;//1 = all, 2 = In, 3 = Out
 
 $('#input_barcode').trigger("focus");
-$('#filter_start_date').val(getCurrentDate(-1));
+$('#filter_start_date').val(getCurrentDate());
 $('#filter_end_date').val(getCurrentDate());
 afterInsert();
 
-$(document).on("click",".btn_scan",function(){
-    mode= $(this).attr("mode");
-    $('#input_barcode').val("");
-    $('#input_qty').val("1");
-    $('#input_barcode').trigger("focus");
-});
 $(document).on("change","#filter_start_date,#filter_end_date",function(){
     afterInsert();
 });
 $(document).on("click",".btn_scan",function(){
-    mode= $(this).attr("mode");
+    mode= $(this).val();
     $('#input_barcode').val("");
     $('#input_qty').val("1");
     $('#input_barcode').trigger("focus");
@@ -90,10 +84,15 @@ function insertData() {
             'X-CSRF-TOKEN': token
         },
         success:function(e){      
+            if(e==-1){
+                 toastr.error('', '"Supplies not found"');
+                 return false;
+            }
             if($('#input-type').val()==1){
+               
                 toastr.success('', 'Successfully Added Incoming Item');
             }
-            else{
+            else {
                 toastr.success('', 'Successfully Added Outgoing Item');
                 
             }

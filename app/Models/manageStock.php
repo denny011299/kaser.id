@@ -30,8 +30,10 @@ class manageStock extends Model
         else $result->whereNotNull('pr_id');
 
         if($data["ms_start_date"] && $data["ms_end_date"]) {
-            $result->whereBetween('created_at', [$data["ms_start_date"], $data["ms_end_date"]]);
+            $endDate = Carbon::parse($data["ms_end_date"])->addDay();
+            $result->whereBetween('created_at', [$data["ms_start_date"], $endDate]);
         } elseif($data["ms_start_date"]) {
+      
             $result->where('created_at', '>=', $data["ms_start_date"]);
         } elseif($data["ms_end_date"]) {
             $result->where('created_at', '<=', $data["ms_end_date"]);
@@ -47,14 +49,14 @@ class manageStock extends Model
                 $value->sup_name = $sup->sup_name;
                 $value->sup_unit = $sup->sup_unit;
                 $value->sup_sku = $sup->sup_sku;
-
+                $endDate = Carbon::parse($data["ms_end_date"])->addDay();
                 $value->sup_in = manageStock::where("sup_id", $value->sup_id)
                     ->where("ms_type", 1)
-                   // ->whereBetween('created_at', [$data["ms_start_date"] ?? Carbon::now(), $data["ms_end_date"] ?? Carbon::now()])
+                    ->whereBetween('created_at', [$data["ms_start_date"], $endDate])
                     ->sum('ms_stock');
                 $value->sup_out = manageStock::where("sup_id", $value->sup_id)
                     ->where("ms_type", 2)
-                    //->whereBetween('created_at', [$data["ms_start_date"] ?? Carbon::now(), $data["ms_end_date"] ?? Carbon::now()])
+                    ->whereBetween('created_at', [$data["ms_start_date"], $endDate])
                     ->sum('ms_stock');
             }
             else{
@@ -104,7 +106,7 @@ class manageStock extends Model
                     $data["sup_id"] = $s->sup_id;
                 }
             } else {
-                return "Supplies not found";
+                return -1;
             }
         }
         else{

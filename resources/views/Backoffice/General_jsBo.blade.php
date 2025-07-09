@@ -181,7 +181,7 @@
         });
     }
     
-    function autocompleteCategory(id, modalParent = null) {
+    function autocompleteCategory(id, modalParent = null,all=0) {
         //search country dan city
         $(id).select2({
             ajax: {
@@ -195,10 +195,19 @@
                     };
                 },
                 processResults: function processResults(data) {
+                    var results = [];
+                    if(all==1){
+                        results.push({
+                            id: "-1",
+                            text: "All Category"
+                        })
+                    }
+                    $.map(data.data, function(item) {
+                        results.push(item);
+                    });
+                   
                     return {
-                        results: $.map(data.data, function(item) {
-                            return item;
-                        }),
+                        results
                     };
                 },
             },

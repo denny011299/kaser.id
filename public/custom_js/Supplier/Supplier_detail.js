@@ -2,14 +2,14 @@
     autocompleteProduct('#pr_id','#modalInsert');
     autocompleteSupplies('#sup_id','#modalInsertSupplies');
     var mode=1;
-
+    var po;
     $(document).on("click",".menu",function(){
         console.log();
         var menu = $(this).attr("menu");
         if(menu==1) refreshProduct();
         else if(menu==2) refreshSupplies();
         else if(menu==3) refreshPurchaseOrder();
-        else if(menu==4) refreshPoInvoice();
+        else if(menu==4) refreshPurchaseOrder();
     }); 
 
     function refreshProduct() {
@@ -354,7 +354,9 @@
                     sp_id:sp_id,
                 },
                 dataSrc: function (json) {
+                    po = json;
                     for (var i = 0; i < json.length; i++) {
+                        
                         json[i].spo_tanggal_text = moment(json[i].spo_tanggal).format('D MMM YYYY');
                         json[i].spo_total = formatRupiah(json[i].spo_total,"Rp.");
                         json[i].action=`
@@ -364,7 +366,7 @@
                             </a>
                         `;
                     }
-
+                    refreshPoInvoice(po);
                     data = json;
                     return json;
                 },
@@ -400,7 +402,12 @@
     }
 
     
-    function refreshPoInvoice() {
+    function refreshPoInvoice(dt) {
+        var list = [];
+        dt.forEach(item => {
+            list.push(item.spo_id);
+        });
+        if(list.length<=0) return false;
         $("#tablePoInvoice").dataTable({
             dom: 'Bfrtip',
             serverSide: false,
@@ -411,7 +418,7 @@
                 url: "/admin/getPoInvoice",
                 type: "get",
                 data:{
-                    sp_id:sp_id
+                    list_spo:list
                 },
                 dataSrc: function (json) {
                     for (var i = 0; i < json.length; i++) {

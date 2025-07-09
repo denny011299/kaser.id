@@ -7,7 +7,7 @@ $('#filter_end_date').val(getCurrentDate());
 afterInsert();
 
 $(document).on("click",".btn_scan",function(){
-    mode= $(this).attr("mode");
+    mode= $(this).val();
     $('#input_barcode').val("");
     $('#input_qty').val("1");
     $('#input_barcode').trigger("focus");
@@ -17,12 +17,6 @@ $(document).on("change","#filter_start_date,#filter_end_date",function(){
     afterInsert();
 });
 
-$(document).on("click",".btn_scan",function(){
-    mode= $(this).attr("mode");
-    $('#input_barcode').val("");
-    $('#input_qty').val("1");
-    $('#input_barcode').trigger("focus");
-});
 
 $(document).on("click",".nav-jenis",function(){
     type= $(this).attr("tipe");

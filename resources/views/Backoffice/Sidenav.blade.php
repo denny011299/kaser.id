@@ -134,6 +134,13 @@
                                         <li>
                                             <a href="/admin/manageProduct" class="tp-link">Manage Product</a>
                                         </li>
+                                        <li>
+                                            <a href="/admin/StockOpname" class="tp-link">Stock Opname Product</a>
+                                            
+                                        </li>
+                                        <li>
+                                           <a href="/admin/StockOpnameSupply" class="tp-link">Stock Opname Supplies</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
@@ -184,6 +191,9 @@
                                         </li>
                                         <li>
                                             <a href="/admin/Payment" class="tp-link">Payment</a>
+                                        </li>
+                                        <li>
+                                            <a href="/admin/floor" class="tp-link">Setting Table</a>
                                         </li>
                                     </ul>
                                 </div>
