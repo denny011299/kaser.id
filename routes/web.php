@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AutocompleteController;
 use App\Http\Controllers\CashierController;
-use App\Http\Controllers\CoaController;
+use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\PDFController;
@@ -185,20 +185,22 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/deleteDO', [CustomerController::class, "deleteDO"])->name('deleteDO');
     Route::get('/deliveryOrder/{id}', [PDFController::class, "deliveryOrder"])->name('deliveryOrder');
 
-    Route::get('/Coa',[CoaController::class,"Coa"]);
+    Route::get('/Coa',[AccountingController::class,"Coa"]);
+    Route::get('/getCoaCategory',[AccountingController::class,"getCoaCategory"])->name('getCoaCategory');
+    Route::post('/insertCoaCategory',[AccountingController::class,"insertCoaCategory"])->name('insertCoaCategory');
+    Route::post('/updateCoaCategory',[AccountingController::class,"updateCoaCategory"])->name('updateCoaCategory');
+    Route::post('/deleteCoaCategory',[AccountingController::class,"deleteCoaCategory"])->name('deleteCoaCategory');
 
-    Route::get('/getCoaCategory',[CoaController::class,"getCoaCategory"])->name('getCoaCategory');
-    Route::post('/insertCoaCategory',[CoaController::class,"insertCoaCategory"])->name('insertCoaCategory');
-    Route::post('/updateCoaCategory',[CoaController::class,"updateCoaCategory"])->name('updateCoaCategory');
-    Route::post('/deleteCoaCategory',[CoaController::class,"deleteCoaCategory"])->name('deleteCoaCategory');
+    Route::get('/getCoa',[AccountingController::class,"getCoa"])->name('getCoa');
+    Route::post('/insertCoa',[AccountingController::class,"insertCoa"])->name('insertCoa');
+    Route::post('/updateCoa',[AccountingController::class,"updateCoa"])->name('updateCoa');
+    Route::post('/deleteCoa',[AccountingController::class,"deleteCoa"])->name('deleteCoa');
 
-    Route::get('/getCoa',[CoaController::class,"getCoa"])->name('getCoa');
-    Route::post('/insertCoa',[CoaController::class,"insertCoa"])->name('insertCoa');
-    Route::post('/updateCoa',[CoaController::class,"updateCoa"])->name('updateCoa');
-    Route::post('/deleteCoa',[CoaController::class,"deleteCoa"])->name('deleteCoa');
+    Route::get('/getSubCoa',[AccountingController::class,"getSubCoa"])->name('getSubCoa');
+    Route::post('/insertSubCoa',[AccountingController::class,"insertSubCoa"])->name('insertSubCoa');
+    Route::post('/updateSubCoa',[AccountingController::class,"updateSubCoa"])->name('updateSubCoa');
+    Route::post('/deleteSubCoa',[AccountingController::class,"deleteSubCoa"])->name('deleteSubCoa');
 
-    Route::get('/getSubCoa',[CoaController::class,"getSubCoa"])->name('getSubCoa');
-    Route::post('/insertSubCoa',[CoaController::class,"insertSubCoa"])->name('insertSubCoa');
-    Route::post('/updateSubCoa',[CoaController::class,"updateSubCoa"])->name('updateSubCoa');
-    Route::post('/deleteSubCoa',[CoaController::class,"deleteSubCoa"])->name('deleteSubCoa');
+    Route::get('/JournalEntries',[AccountingController::class,"JournalEntries"]);
+    Route::get('/getJournalEntries',[AccountingController::class,"getJournalEntries"]);
 });

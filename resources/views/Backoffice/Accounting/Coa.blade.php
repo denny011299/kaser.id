@@ -12,8 +12,8 @@
             </div>
             <div class="text-end">
                 <ol class="breadcrumb m-0 py-0">
-                    <li class="breadcrumb-item"><a href="javascript: void(0);">Chart of Accounts</a></li>
-                    <li class="breadcrumb-item active">COA</li>
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Accounting</a></li>
+                    <li class="breadcrumb-item active">Chart of Accounts</li>
                 </ol>
             </div>
         </div>
@@ -220,5 +220,5 @@
         var public = "{{ asset('') }}";
         var uploadImageUrl = "{{ asset('assets/image-cards.png') }}";
     </script>
-    <script src="{{asset('custom_js/Coa/Coa.js')}}"></script>
+    <script src="{{asset('custom_js/Accounting/Coa.js')}}"></script>
 @endsection

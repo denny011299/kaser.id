@@ -157,13 +157,16 @@
                             <li>
                                 <a href="#sidebarCoa" data-bs-toggle="collapse">
                                     <span class="mdi mdi-chart-box-plus-outline me-1" style="font-size: 16pt"></span>
-                                    <span> Chart of Accounts </span>
+                                    <span> Accounting </span>
                                     <span class="menu-arrow"></span>
                                 </a>
                                 <div class="collapse" id="sidebarCoa">
                                     <ul class="nav-second-level">
                                         <li>
-                                            <a href="/admin/Coa" class="tp-link">COA</a>
+                                            <a href="/admin/Coa" class="tp-link">Chart of Accounts</a>
+                                        </li>
+                                        <li>
+                                            <a href="/admin/JournalEntries" class="tp-link">Journal Entries</a>
                                         </li>
                                     </ul>
                                 </div>

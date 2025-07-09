@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Coa;
 use App\Models\CoaCategories;
 use App\Models\CoaSubCoas;
-use App\Models\SubCoas;
+use App\Models\JournalEntries;
 use Illuminate\Http\Request;
 
-class CoaController extends Controller
+class AccountingController extends Controller
 {
     function Coa(){
-        return view('Backoffice.Coa.Coa');
+        return view('Backoffice.Accounting.Coa');
     }
 
     function getCoaCategory(Request $req){
@@ -95,5 +95,25 @@ class CoaController extends Controller
     {
         $data = $req->all();
         return (new CoaSubCoas())->deleteSubCoa($data);
+    }
+
+    // Journal Entries
+    function JournalEntries(){
+        return view('Backoffice.Accounting.JournalEntries');
+    }
+
+    function getJournalEntries(Request $req){
+        $data =  (new JournalEntries())->getJournalEntries([
+            "je_description"=>$req->je_description,
+            "je_id"=>$req->je_id,
+            "coa_id"=>$req->coa_id
+        ]);
+        return json_encode($data);
+    }
+
+    function insertJournalEntries(Request $req)
+    {
+        $data = $req->all();
+        return (new JournalEntries())->insertJournalEntries($data);
     }
 }
