@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AutocompleteController;
 use App\Http\Controllers\CashierController;
+use App\Http\Controllers\CoaController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GeneralController;
 use App\Http\Controllers\PDFController;
@@ -31,6 +32,8 @@ Route::post('/autocompleteProduct', [AutocompleteController::class,"autocomplete
 Route::post('/autocompleteSupplies', [AutocompleteController::class,"autocompleteSupplies"]);
 Route::post('/autocompleteCategoryStaff', [AutocompleteController::class,"autocompleteCategoryStaff"]);
 Route::post('/autocompleteCustomer', [AutocompleteController::class,"autocompleteCustomer"]);
+Route::post('/autocompleteCoaCategory', [AutocompleteController::class,"autocompleteCoaCategory"]);
+Route::post('/autocompleteCoa', [AutocompleteController::class,"autocompleteCoa"]);
 
 Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::get('/',[GeneralController::class,"index"]);
@@ -213,4 +216,20 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/updateFloor', [PengaturanController::class, "updateFloor"])->name('updateFloor');
     Route::post('/deleteFloor', [PengaturanController::class, "deleteFloor"])->name('deleteFloor');
 
+    Route::get('/Coa',[CoaController::class,"Coa"]);
+
+    Route::get('/getCoaCategory',[CoaController::class,"getCoaCategory"])->name('getCoaCategory');
+    Route::post('/insertCoaCategory',[CoaController::class,"insertCoaCategory"])->name('insertCoaCategory');
+    Route::post('/updateCoaCategory',[CoaController::class,"updateCoaCategory"])->name('updateCoaCategory');
+    Route::post('/deleteCoaCategory',[CoaController::class,"deleteCoaCategory"])->name('deleteCoaCategory');
+
+    Route::get('/getCoa',[CoaController::class,"getCoa"])->name('getCoa');
+    Route::post('/insertCoa',[CoaController::class,"insertCoa"])->name('insertCoa');
+    Route::post('/updateCoa',[CoaController::class,"updateCoa"])->name('updateCoa');
+    Route::post('/deleteCoa',[CoaController::class,"deleteCoa"])->name('deleteCoa');
+
+    Route::get('/getSubCoa',[CoaController::class,"getSubCoa"])->name('getSubCoa');
+    Route::post('/insertSubCoa',[CoaController::class,"insertSubCoa"])->name('insertSubCoa');
+    Route::post('/updateSubCoa',[CoaController::class,"updateSubCoa"])->name('updateSubCoa');
+    Route::post('/deleteSubCoa',[CoaController::class,"deleteSubCoa"])->name('deleteSubCoa');
 });

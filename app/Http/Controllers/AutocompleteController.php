@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\CategoryStaff;
 use App\Models\city;
+use App\Models\Coa;
+use App\Models\CoaCategories;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Product_unit;
@@ -173,6 +175,40 @@ class AutocompleteController extends Controller
         foreach ($data as $r) {
             $r->id = $r["cus_id"];
             $r->text = $r["cus_name"];
+        };
+        echo json_encode(array(
+            "data" => $data
+        ));
+    }
+
+    public function autocompleteCoaCategory(Request $req)
+    {
+        $keyword = isset($req->keyword) ? $req->keyword : null;
+
+        $p = new CoaCategories();
+        $data = $p->getCoaCategory([
+            "cc_nama" => $keyword
+        ]);
+        foreach ($data as $r) {
+            $r->id = $r["cc_id"];
+            $r->text = $r["cc_kode"] . " - " . $r["cc_nama"];
+        };
+        echo json_encode(array(
+            "data" => $data
+        ));
+    }
+
+    public function autocompleteCoa(Request $req)
+    {
+        $keyword = isset($req->keyword) ? $req->keyword : null;
+
+        $p = new Coa();
+        $data = $p->getCoa([
+            "coa_nama" => $keyword
+        ]);
+        foreach ($data as $r) {
+            $r->id = $r["coa_id"];
+            $r->text = $r["coa_kode"] . " - " . $r["coa_nama"];
         };
         echo json_encode(array(
             "data" => $data
