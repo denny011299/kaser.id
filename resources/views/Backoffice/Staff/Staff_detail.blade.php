@@ -253,7 +253,7 @@
         </div>
     </div>
     
-    <div class="modal fade bs-example-modal-center show" id="modalViewKasbon"    tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+    -<div class="modal fade bs-example-modal-center show" id="modalViewKasbon"    tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered modal-lg" id="modalInsert">
             <div class="modal-content">
                 <div class="modal-header">
@@ -284,7 +284,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
                 </div>
-            </div><!-- /.modal-content -->
+            </div><!-- /.modalcontent -->
         </div>
     </div>
     <div class="modal fade bs-example-modal-center show" id="modalReason"    tabindex="-1" role="dialog" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">

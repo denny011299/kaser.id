@@ -199,4 +199,18 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
     Route::post('/insertKasbon', [StaffController::class, "insertKasbon"])->name('insertKasbon');
     Route::post('/updateKasbon', [StaffController::class, "updateKasbon"])->name('updateKasbon');
     Route::post('/deleteKasbon', [StaffController::class, "deleteKasbon"])->name('deleteKasbon');
+
+    Route::get('/meja/{id}',[PengaturanController::class,"Meja"]);
+    Route::get('/getMeja', [PengaturanController::class, "getMeja"])->name('getMeja');
+    Route::post('/insertMeja', [PengaturanController::class, "insertMeja"])->name('insertMeja');
+    Route::post('/updateMeja', [PengaturanController::class, "updateMeja"])->name('updateMeja');
+    Route::post('/updateKoordinatMeja', [PengaturanController::class, "updateKoordinatMeja"])->name('updateKoordinatMeja');
+    Route::post('/deleteMeja', [PengaturanController::class, "deleteMeja"])->name('deleteMeja');
+    
+    Route::get('/floor',[PengaturanController::class,"floor"]);
+    Route::get('/getFloor', [PengaturanController::class, "getFloor"])->name('getFloor');
+    Route::post('/insertFloor', [PengaturanController::class, "insertFloor"])->name('insertFloor');
+    Route::post('/updateFloor', [PengaturanController::class, "updateFloor"])->name('updateFloor');
+    Route::post('/deleteFloor', [PengaturanController::class, "deleteFloor"])->name('deleteFloor');
+
 });

@@ -175,6 +175,9 @@
                                         <li>
                                             <a href="/admin/Payment" class="tp-link">Payment</a>
                                         </li>
+                                        <li>
+                                            <a href="/admin/floor" class="tp-link">Setting Table</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>
