@@ -1,13 +1,13 @@
-    var mode = 1; //1 = debit, 2 = kredit
+var mode = 1; //1 = debit, 2 = kredit
     var variants = [];
-    refreshJournal();
-    autocompleteCoa('#filter_coa');
-    autocompleteCoa('#je_coa_name', '#modalInsert');
+    refreshCashflow();
+    autocompleteKas('#filter_coa');
+    autocompleteKas('#je_coa_name', '#modalInsert');
 
 
     $(document).on('click','.btnAdd',function(){
         $('#modalInsert input').val("");
-        $('#modalInsert .modal-title').html("Add New Journal Entries");
+        $('#modalInsert .modal-title').html("Add New Cashflow");
         $('#modalInsert #je_coa_name').empty();
         $('.is-invalid').removeClass('is-invalid');
         $('#modalInsert').modal("show");
@@ -39,41 +39,33 @@
         }
     });
 
-    function refreshJournal() {
-        $("#tableJournal").dataTable({
+    function refreshCashflow() {
+        $("#tableCashflow").dataTable({
             dom: 'Bfrtip',
             serverSide: false,
             destroy: true,
             deferLoading: 10,
             deferRender: true,
-            order: [[0, 'desc']],
             ajax: {
                 url: "/admin/getJournalEntries",
                 type: "get",
                 data:{
-                    je_description:$('#filter_je_desc').val(),
+                    je_description:$('#filter_cf_desc').val(),
                     coa_id:$('#filter_coa').val(),
-                    je_date:$('#filter_je_date').val()
+                    coa_nama:"kas",
+                    je_date:$('#filter_cf_date').val()
                 },
                 dataSrc: function (json) {
                     for (var i = 0; i < json.length; i++) {
                         json[i].debit_format = "Rp "+formatRupiah(json[i].je_debit);
                         if (json[i].je_credit > 0){
                             json[i].kredit_format = "("+"Rp "+formatRupiah(json[i].je_credit)+")";
+                            json[i].cash_format = `<p class="badge text-bg-danger mt-3 fw-bold">Cash Out</p>`;
                         } else {
                             json[i].kredit_format = "Rp "+formatRupiah(json[i].je_credit);
+                            json[i].cash_format = `<p class="badge text-bg-success mt-3 fw-bold">Cash In</p>`;
                         }
-                        
-                        if (json[i].gross < 0){
-                            json[i].gross_format = "("+"Rp "+formatRupiah(json[i].gross)+")";
-                        } else {
-                            json[i].gross_format = "Rp "+formatRupiah(json[i].gross);
-                        }
-
-                        if (json[i].je_reference == null) json[i].ref = "-";
-                        else json[i].ref = json[i].je_reference
                     }
-                    console.log(json)
                     data = json;
                     return json;
                 },
@@ -85,13 +77,11 @@
             initComplete: (settings, json) => {
             },
             columns: [
-                { data: "je_date", className: "text-left", width: "10%"},
-                { data: "coa_nama", className: "text-left", width: "15%"},
-                { data: "je_description", className: "text-left", width: "20%"},
-                { data: "ref", className: "text-left", width: "15%"},
+                { data: "je_date", className: "text-left"},
+                { data: "cash_format", className: "text-left"},
+                { data: "je_description", className: "text-left"},
                 { data: "debit_format", className: "text-center"},
                 { data: "kredit_format", className: "text-center"},
-                { data: "gross_format", className: "text-center"},
             ],
             searching: false,
             displayLength: 10,
@@ -104,7 +94,7 @@
             }
         });
 
-        let table1 = $("#tableJournal").DataTable();
+        let table1 = $("#tableCashflow").DataTable();
         table1.one("draw", function () {
             table1.columns.adjust();
         }).ajax.reload();
@@ -115,7 +105,6 @@
         $('.is-invalid').removeClass('is-invalid');
         var url ="/admin/insertJournalEntries";
         var valid=1;
-        console.log($('#je_credit').length)
         $("#modalInsert .fill").each(function(){
             
             if($(this).val()==null||$(this).val()=="null"||$(this).val()==""){
@@ -133,7 +122,7 @@
         param = {
             je_date:$('#je_date').val(),
             je_description:$('#je_description').val(),
-            je_reference:$('#je_reference').val(),
+            je_reference:"",
             coa_id:$('#je_coa_name').val(),
             je_debit:$('#je_debit').length != 0 ? convertToAngka($('#je_debit').val()) : 0,
             je_credit:$('#je_credit').length != 0 ? convertToAngka($('#je_credit').val()) : 0,
@@ -158,7 +147,7 @@
             },
             success:function(e){      
                 ResetLoadingButton(".btn-save", 'Save changes');      
-                afterInsertJournal();
+                afterInsertCashflow();
             },
             error:function(e){
                 ResetLoadingButton(".btn-save", 'Save changes');
@@ -167,22 +156,19 @@
         });
     });
 
-    function afterInsertJournal() {
+    function afterInsertCashflow() {
         $(".modal").modal("hide");
         if(mode==1)notifikasi('success', "Berhasil Insert", "Berhasil menambah Debit");
         else if(mode==2)notifikasi('success', "Berhasil Insert", "Berhasil menambah Kredit");
-        refreshJournal();
+        refreshCashflow();
     }
     
-    $(document).on("keyup","#filter_je_desc",function(){
-        refreshJournal();
+    $(document).on("keyup","#filter_cf_desc",function(){
+        refreshCashflow();
+    });
+    $(document).on("change","#filter_cf_date",function(){
+        refreshCashflow();
     });
     $(document).on("change","#filter_coa",function(){
-        refreshJournal();
+        refreshCashflow();
     });
-    $(document).on("change","#filter_je_date",function(){
-        refreshJournal();
-        console.log($(this).val())
-    });
-
-

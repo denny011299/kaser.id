@@ -108,7 +108,6 @@
         $("#modalInsert .fill").each(function(){
             if($(this).val()==null||$(this).val()=="null"||$(this).val()==""){
                 valid=-1;
-                console.log($(this))
                 $(this).addClass('is-invalid');
             }
         });
@@ -170,7 +169,6 @@
         for (const [key, value] of Object.entries(param)) {
             fd.append(key, value);
         }
-        console.log($('#input_file_img')[0].files[0])
         fd.append('profile', $('#input_file_img')[0].files[0]);
         fd.append('ktp', $('#input_file_img_ktp')[0].files[0]);
         

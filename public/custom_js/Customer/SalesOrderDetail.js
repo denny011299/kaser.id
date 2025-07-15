@@ -8,7 +8,15 @@
         $('#modalInsert').modal("show");
     });
  
+    // Bila dari PayReceive page
+    $(document).ready(function () {
+        let invoiceTab = localStorage.getItem("activeTab");
 
+        if (invoiceTab) {
+            $('a[data-bs-toggle="tab"][href="' + invoiceTab + '"]').tab('show');
+            localStorage.removeItem("activeTab");
+        }
+    });
 
     $(document).on("click",".menu",function(){
         var menu = $(this).attr("menu");

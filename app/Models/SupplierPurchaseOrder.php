@@ -16,7 +16,8 @@ class SupplierPurchaseOrder extends Model
         $data = array_merge([
             "spo_id" => null,
             "sp_id" => null,
-            "spo_status" => null
+            "spo_status" => null,
+            "spo_to_company" => null
         ], $data);
 
         $q = self::where('spo_status', '!=', 'cancelled');
@@ -24,6 +25,9 @@ class SupplierPurchaseOrder extends Model
         if ($data["spo_id"])       $q->where("spo_id", $data["spo_id"]);
         if ($data["sp_id"])        $q->where("sp_id", $data["sp_id"]);
         if ($data["spo_status"])   $q->where("spo_status", $data["spo_status"]);
+
+        // Untuk filter PayablesReceivables
+        if ($data["spo_to_company"])   $q->where("spo_to_company", 'like', '%' . $data["spo_to_company"] . '%');
 
         $q->orderBy('spo_tanggal', 'desc');
 

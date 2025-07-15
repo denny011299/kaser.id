@@ -189,9 +189,10 @@ class CustomerController extends Controller
     function getSoInvoice(Request $req)
     {
         $data =  (new SalesOrderDetailInvoice())->getInvoices([
-            "spo_id" => $req->spo_id,
-            "spoi_id" => $req->spoi_id,
-            "spoi_nomer" => $req->spoi_nomer,
+            "so_id" => $req->so_id,
+            "soi_id" => $req->soi_id,
+            "soi_nomer" => $req->soi_nomer,
+            "so_to_company" => $req->so_to_company,
         ]);
         return json_encode($data);
     }

@@ -234,4 +234,10 @@ Route::middleware(checkSession::class)->prefix('admin')->group(function () {
 
     Route::get('/JournalEntries',[AccountingController::class,"JournalEntries"]);
     Route::get('/getJournalEntries',[AccountingController::class,"getJournalEntries"]);
+    Route::post('/insertJournalEntries',[AccountingController::class,"insertJournalEntries"]);
+
+    Route::get('/PayReceive',[AccountingController::class,"PayReceive"]);
+    Route::get('/getPayablesChart',[AccountingController::class,"getPayablesChart"]);
+
+    Route::get('/Cashflow',[AccountingController::class,"Cashflow"]);
 });

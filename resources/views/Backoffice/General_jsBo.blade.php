@@ -459,6 +459,35 @@
             dropdownParent: modalParent ? $(modalParent) : "",
         });
     }
+    function autocompleteKas(id, modalParent = null,length=3) {
+        //search country dan city
+        $(id).select2({
+            ajax: {
+                url: "/autocompleteCoa",
+                dataType: "json",
+                type: "post",
+                data: function data(params) {
+                    return {
+                        "keyword": "kas",
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    };
+                },
+                processResults: function processResults(data) {
+                    return {
+                        results: $.map(data.data, function(item) {
+                            return item;
+                        }),
+                    };
+                },
+            },
+            placeholder: "Cash Type",
+            closeOnSelect: true,
+            allowClear: true,
+            theme: "bootstrap-5",
+            width: "100%",
+            dropdownParent: modalParent ? $(modalParent) : "",
+        });
+    }
 
     function getCurrentDate(daysAfter = 0) {
         let local = new Date();

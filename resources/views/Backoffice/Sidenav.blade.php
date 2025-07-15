@@ -175,6 +175,12 @@
                                         <li>
                                             <a href="/admin/JournalEntries" class="tp-link">Journal Entries</a>
                                         </li>
+                                        <li>
+                                            <a href="/admin/PayReceive" class="tp-link">Payable & Receiveable</a>
+                                        </li>
+                                        <li>
+                                            <a href="/admin/Cashflow" class="tp-link">Cashflow</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </li>

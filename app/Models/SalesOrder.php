@@ -16,7 +16,8 @@ class SalesOrder extends Model
         $data = array_merge([
             "so_id" => null,
             "cus_id" => null,
-            "cus_status" => null
+            "cus_status" => null,
+            "so_to_company" => null,
         ], $data);
 
         $q = self::where('so_status', '!=', 'cancelled');
@@ -24,6 +25,9 @@ class SalesOrder extends Model
         if ($data["so_id"])       $q->where("so_id", $data["so_id"]);
         if ($data["cus_id"])        $q->where("sp_id", $data["cus_id"]);
         if ($data["cus_status"])   $q->where("cus_status", $data["cus_status"]);
+
+        // Untuk filter PayablesReceivables
+        if ($data["so_to_company"])   $q->where("so_to_company", 'like', '%' . $data["so_to_company"] . '%');
 
         $q->orderBy('so_tanggal', 'desc');
 

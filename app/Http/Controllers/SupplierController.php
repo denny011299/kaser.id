@@ -76,6 +76,8 @@ class SupplierController extends Controller
             "spo_id" => $req->spo_id,
             "sp_id" => $req->sp_id,
             "spo_status" => $req->spo_status,
+            // Untuk Filter PayablesReceiveables
+            "spo_to_company" => $req->spo_to_company
         ]);
         return json_encode($data);
     }
@@ -161,6 +163,7 @@ class SupplierController extends Controller
             "spoi_id" => $req->spoi_id,
             "spoi_nomer" => $req->spoi_nomer,
             "list_spo" => $req->list_spo,
+            "spo_to_company" => $req->spo_to_company
         ]);
         return json_encode($data);
     }

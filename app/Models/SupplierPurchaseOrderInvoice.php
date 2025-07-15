@@ -15,18 +15,26 @@ class SupplierPurchaseOrderInvoice extends Model
     {
         $data = array_merge([
             "spoi_nomer" => null,
+            "sp_id" => null,
             "spo_id" => null,
             "spoi_id" => null,
             "list_spo" => null,
+            "list_status" => null,
+            "spo_to_company" => null
         ], $data);
 
         $result = self::where('spoi_status', '!=', "Deleted");
         if ($data["spoi_nomer"]) {
             $result->where('spoi_nomer', 'like', '%' . $data["spoi_nomer"] . '%');
         }
-
+        if ($data["list_status"]) {
+            $result->whereIn('spoi_status', $data["list_status"]);
+        }
         if ($data["spo_id"]) {
             $result->where('spo_id', '=', $data["spo_id"]);
+        }
+        if ($data["sp_id"]) {
+            $result->where('sp_id', '=', $data["sp_id"]);
         }
         if ($data["spoi_id"]) {
             $result->where('spoi_id', '=', $data["spoi_id"]);
@@ -35,11 +43,25 @@ class SupplierPurchaseOrderInvoice extends Model
             $result->whereIn('spo_id', $data["list_spo"]);
         }
         
+        // Pengecekan untuk Filter PayablesReceiveables
+        if($data["spo_to_company"]) {
+            $spo_to_company = (new SupplierPurchaseOrder())->getPurchaseOrder(["spo_to_company" => $data["spo_to_company"]]);
+            if ($spo_to_company && !$spo_to_company->isEmpty()) {
+                $spoIds = $spo_to_company->map(function ($item) {
+                    return $item->spo_id;
+                });
+                $result->whereIn('spo_id', $spoIds);
+            }else {
+                $result->whereRaw('1 = 0');
+            }
+        };
+        
         $result->orderBy('created_at', 'asc');
         $result = $result->get();
 
         foreach ($result as $key => $value) {
             $value->spo_nomer = SupplierPurchaseOrder::find($value->spo_id)->spo_nomer;
+            $value->spo_to_company = SupplierPurchaseOrder::find($value->spo_id)->spo_to_company;
         }
         return $result;
     }
