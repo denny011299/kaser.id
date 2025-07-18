@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SettingTax extends Model
+class pengaturanSettingTax extends Model
 {
     protected $table = "setting_taxes";
     protected $primaryKey = "tx_id";

@@ -99,7 +99,7 @@ class AccountingController extends Controller
     }
 
     // Journal Entries
-    function JournalEntries(){
+    function Journal(){
         return view('Backoffice.Accounting.JournalEntries');
     }
 
@@ -144,5 +144,38 @@ class AccountingController extends Controller
     // Cashflow
     function Cashflow(){
         return view('Backoffice.Accounting.Cashflow');
+    }
+
+    
+    // General Ledger
+    function GeneralLedger(){
+        return view('Backoffice.Accounting.GeneralLedger');
+    }
+
+    function getGeneralLedger(){
+        $data = DB::table('journal_entries')
+            ->join('coas', 'journal_entries.coa_id', '=', 'coas.coa_id')
+            ->select('journal_entries.*', 'coas.coa_nama', 'coas.coa_kode')
+            ->where('journal_entries.status', 1)
+            ->orderBy('journal_entries.je_date', 'asc')
+            ->get()
+            ->groupBy('coa_id')
+            ->map(function ($group) {
+                return $group;
+            })
+            ->sortBy(function ($group) {
+                return $group->first()->coa_kode;
+            })
+            ->values(); // Untuk reset variabel array
+
+        foreach ($data as $entries) {
+            $balance = 0;
+            foreach ($entries as $value) {
+                $balance += $value->je_debit;
+                $balance -= $value->je_credit;
+                $value->balance = $balance;
+            }
+        }
+        return response()->json($data);
     }
 }

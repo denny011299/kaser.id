@@ -9,12 +9,12 @@
     <div class="container-fluid">
         <div class="py-3 d-flex align-items-sm-center flex-sm-row flex-column">
             <div class="flex-grow-1">
-                <h4 class="fs-18 fw-semibold m-0">Journal Entries</h4>
+                <h4 class="fs-18 fw-semibold m-0">Journal</h4>
             </div>
             <div class="text-end">
                 <ol class="breadcrumb m-0 py-0">
                     <li class="breadcrumb-item"><a href="javascript: void(0);">Accounting</a></li>
-                    <li class="breadcrumb-item active">Journal Entries</li>
+                    <li class="breadcrumb-item active">Journal</li>
                 </ol>
             </div>
         </div>
@@ -32,7 +32,7 @@
                         <input type="date" class="form-control" id="filter_je_date" name="">
                     </div>
                     <div class="col-3 text-end">
-                        <button class="btn bg-success-subtle btnAdd" style="border-radius: 100px"><span class="mdi mdi-plus-thick"></span> New Journal Entry</button>
+                        <button class="btn bg-success-subtle btnAdd" style="border-radius: 100px"><span class="mdi mdi-plus-thick"></span> New Journal</button>
                     </div>
                 </div>
                 <table class="table" id="tableJournal">
@@ -44,7 +44,7 @@
                             <td>Reference</td>
                             <td class="text-center">Debit</td>
                             <td class="text-center">Credit</td>
-                            <td class="text-center">Gross</td>
+                            <td class="text-center">Balance</td>
                         </tr>
                     </thead>
                     <tbody></tbody>

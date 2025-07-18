@@ -173,13 +173,16 @@
                                             <a href="/admin/Coa" class="tp-link">Chart of Accounts</a>
                                         </li>
                                         <li>
-                                            <a href="/admin/JournalEntries" class="tp-link">Journal Entries</a>
+                                            <a href="/admin/Journal" class="tp-link">Journal</a>
                                         </li>
                                         <li>
                                             <a href="/admin/PayReceive" class="tp-link">Payable & Receiveable</a>
                                         </li>
                                         <li>
                                             <a href="/admin/Cashflow" class="tp-link">Cashflow</a>
+                                        </li>
+                                        <li>
+                                            <a href="/admin/GeneralLedger" class="tp-link">General Ledger</a>
                                         </li>
                                     </ul>
                                 </div>

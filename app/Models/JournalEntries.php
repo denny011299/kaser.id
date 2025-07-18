@@ -46,12 +46,12 @@ class JournalEntries extends Model
         foreach ($result as $key => $value) {
             $value->coa_nama = Coa::find($value->coa_id)->coa_nama;
         }
-        $gross = 0;
+        $balance = 0;
         $reversed = $result->reverse()->values();
         foreach ($reversed as $key => $value) {
-            $gross += $value->je_debit;
-            $gross -= $value->je_credit;
-            $value->gross = $gross;
+            $balance += $value->je_debit;
+            $balance -= $value->je_credit;
+            $value->balance = $balance;
         }
         
         return $result;

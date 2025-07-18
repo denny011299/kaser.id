@@ -40,74 +40,65 @@
     });
 
     function refreshJournal() {
-        $("#tableJournal").dataTable({
-            dom: 'Bfrtip',
-            serverSide: false,
-            destroy: true,
-            deferLoading: 10,
-            deferRender: true,
-            order: [[0, 'desc']],
-            ajax: {
-                url: "/admin/getJournalEntries",
-                type: "get",
-                data:{
-                    je_description:$('#filter_je_desc').val(),
-                    coa_id:$('#filter_coa').val(),
-                    je_date:$('#filter_je_date').val()
-                },
-                dataSrc: function (json) {
-                    for (var i = 0; i < json.length; i++) {
-                        json[i].debit_format = "Rp "+formatRupiah(json[i].je_debit);
-                        if (json[i].je_credit > 0){
-                            json[i].kredit_format = "("+"Rp "+formatRupiah(json[i].je_credit)+")";
-                        } else {
-                            json[i].kredit_format = "Rp "+formatRupiah(json[i].je_credit);
-                        }
-                        
-                        if (json[i].balance < 0){
-                            json[i].balance_format = "("+"Rp "+formatRupiah(json[i].balance)+")";
-                        } else {
-                            json[i].balance_format = "Rp "+formatRupiah(json[i].balance);
-                        }
-
-                        if (json[i].je_reference == null) json[i].ref = "-";
-                        else json[i].ref = json[i].je_reference
-                    }
-                    console.log(json)
-                    data = json;
-                    return json;
-                },
-                error: function (e) {
-
-                    console.log(e.responseText);
-                },
+        $.ajax({
+            url: "/admin/getGeneralLedger",
+            method: "GET",
+            data:{
+                je_description:$('#filter_je_desc').val(),
+                coa_id:$('#filter_coa').val(),
+                je_date:$('#filter_je_date').val()
             },
-            initComplete: (settings, json) => {
-            },
-            columns: [
-                { data: "je_date", className: "text-left", width: "10%"},
-                { data: "coa_nama", className: "text-left", width: "15%"},
-                { data: "je_description", className: "text-left", width: "20%"},
-                { data: "ref", className: "text-left", width: "15%"},
-                { data: "debit_format", className: "text-center"},
-                { data: "kredit_format", className: "text-center"},
-                { data: "balance_format", className: "text-center"},
-            ],
-            searching: false,
-            displayLength: 10,
-            responsive: true,
-            ordering: true,
-            scrollX: false,
-            scrollY: true,
-            rowCallback: function (row, data, index) {
-                $(row).find('td').addClass('align-middle');
-            }
-        });
+            success: function (json) {
+                console.log(json);
+                var html = "";
 
-        let table1 = $("#tableJournal").DataTable();
-        table1.one("draw", function () {
-            table1.columns.adjust();
-        }).ajax.reload();
+                Object.entries(json).forEach((dataLedger, idx) => {
+                    var datas = dataLedger[1];
+                    var body = "";
+                    datas.forEach(datas2 => {
+                        if (datas2.balance < 0) balance = `(Rp ${formatRupiah(datas2.balance)})`;
+                        else balance = `Rp ${formatRupiah(datas2.balance)}`;
+                        if (datas2.je_credit > 0) credit = `(Rp ${formatRupiah(datas2.je_credit)})`;
+                        else credit = `Rp ${formatRupiah(datas2.je_credit)}`;
+                        body += `
+                            <tr>
+                                <td style="width: 15%">${datas2.je_date}</td>
+                                <td style="width: 31%">${datas2.je_description}</td>
+                                <td style="width: 18%" class="text-center">Rp ${formatRupiah(datas2.je_debit)}</td>
+                                <td style="width: 18%" class="text-center">${credit}</td>
+                                <td style="width: 18%" class="text-center">${balance}</td>
+                            </tr>
+                        `;
+                    });
+
+                    html += `
+                        <p class="fw-bold" style="font-size: 16px">${datas[0].coa_kode} - ${datas[0].coa_nama}</p>
+                        <table style="width: 100%" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th class="text-center">Debit</th>
+                                    <th class="text-center">Credit</th>
+                                    <th class="text-center">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table${idx}">
+                                ${body}
+                            </tbody>
+                        </table>
+                        <hr>
+                    `;
+                });
+                $('#list').html(html);
+
+                data = json;
+                return json;
+            },
+            error: function (e) {
+                console.log(e.responseText);
+            },
+        })
     }
 
     $(document).on("click",".btn-save",function(){
